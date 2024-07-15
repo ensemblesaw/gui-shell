@@ -372,7 +372,109 @@ drumkit {
     background-size: contain;
 }
 
+.drumkit-thin-cymbal {
+    background: url("resource://com/github/ensemblesaw/ens-shell-gtk/images/drumkit/thin_cymbal");
+    background-size: contain;
+    padding: 0;
+    margin: 0;
+    border: none;
+    box-shadow: none;
+    outline: 0;
+}
 
+.drumkit-thin-cymbal.active {
+    background: url("resource://com/github/ensemblesaw/ens-shell-gtk/images/drumkit/thin_cymbal_active");
+    background-size: contain;
+}
 
+.drumkit-crash-cymbal {
+    background: url("resource://com/github/ensemblesaw/ens-shell-gtk/images/drumkit/crash_cymbal");
+    background-size: contain;
+    padding: 0;
+    margin: 0;
+    border: none;
+    box-shadow: none;
+    outline: 0;
+}
+
+.drumkit-crash-cymbal.active {
+    background: url("resource://com/github/ensemblesaw/ens-shell-gtk/images/drumkit/crash_cymbal_active");
+    background-size: contain;
+}
+
+.drumkit-snare {
+    background: url("resource://com/github/ensemblesaw/ens-shell-gtk/images/drumkit/snare");
+    background-size: contain;
+    padding: 0;
+    margin: 0;
+    border: none;
+    box-shadow: none;
+    outline: 0;
+}
+
+.drumkit-snare.active {
+    background: url("resource://com/github/ensemblesaw/ens-shell-gtk/images/drumkit/snare_active");
+    background-size: contain;
+}
+
+.drumkit-kick {
+    background: url("resource://com/github/ensemblesaw/ens-shell-gtk/images/drumkit/kick");
+    background-size: contain;
+    padding: 0;
+    margin: 0;
+    border: none;
+    box-shadow: none;
+    outline: 0;
+}
+
+.drumkit-kick.active {
+    background: url("resource://com/github/ensemblesaw/ens-shell-gtk/images/drumkit/kick_active");
+    background-size: contain;
+}
+
+.drumkit-high-tom {
+    background: url("resource://com/github/ensemblesaw/ens-shell-gtk/images/drumkit/high_tom");
+    background-size: contain;
+    padding: 0;
+    margin: 0;
+    border: none;
+    box-shadow: none;
+    outline: 0;
+}
+
+.drumkit-high-tom.active {
+    background: url("resource://com/github/ensemblesaw/ens-shell-gtk/images/drumkit/high_tom_active");
+    background-size: contain;
+}
+
+.drumkit-mid-tom {
+    background: url("resource://com/github/ensemblesaw/ens-shell-gtk/images/drumkit/mid_tom");
+    background-size: contain;
+    padding: 0;
+    margin: 0;
+    border: none;
+    box-shadow: none;
+    outline: 0;
+}
+
+.drumkit-mid-tom.active {
+    background: url("resource://com/github/ensemblesaw/ens-shell-gtk/images/drumkit/mid_tom_active");
+    background-size: contain;
+}
+
+.drumkit-floor-tom {
+    background: url("resource://com/github/ensemblesaw/ens-shell-gtk/images/drumkit/floor_tom");
+    background-size: contain;
+    padding: 0;
+    margin: 0;
+    border: none;
+    box-shadow: none;
+    outline: 0;
+}
+
+.drumkit-floor-tom.active {
+    background: url("resource://com/github/ensemblesaw/ens-shell-gtk/images/drumkit/floor_tom_active");
+    background-size: contain;
+}
 
 @import url("resource://com/github/ensemblesaw/ens-shell-gtk/theme/Display.css");

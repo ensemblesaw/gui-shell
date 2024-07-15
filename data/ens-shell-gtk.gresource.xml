@@ -30,5 +30,19 @@
     <file compressed="true" alias="highhat_cymbal" preprocess="xml-stripblanks">Images/DrumKit/highhat_cymbal.svg</file>
     <file compressed="true" alias="highhat_cymbal_closed" preprocess="xml-stripblanks">Images/DrumKit/highhat_cymbal_closed.svg</file>
     <file compressed="true" alias="highhat_cymbal_active" preprocess="xml-stripblanks">Images/DrumKit/highhat_cymbal_active.svg</file>
+    <file compressed="true" alias="thin_cymbal" preprocess="xml-stripblanks">Images/DrumKit/thin_cymbal.svg</file>
+    <file compressed="true" alias="thin_cymbal_active" preprocess="xml-stripblanks">Images/DrumKit/thin_cymbal_active.svg</file>
+    <file compressed="true" alias="crash_cymbal" preprocess="xml-stripblanks">Images/DrumKit/crash_cymbal.svg</file>
+    <file compressed="true" alias="crash_cymbal_active" preprocess="xml-stripblanks">Images/DrumKit/crash_cymbal_active.svg</file>
+    <file compressed="true" alias="snare" preprocess="xml-stripblanks">Images/DrumKit/snare.svg</file>
+    <file compressed="true" alias="snare_active" preprocess="xml-stripblanks">Images/DrumKit/snare_active.svg</file>
+    <file compressed="true" alias="kick" preprocess="xml-stripblanks">Images/DrumKit/kick.svg</file>
+    <file compressed="true" alias="kick_active" preprocess="xml-stripblanks">Images/DrumKit/kick_active.svg</file>
+    <file compressed="true" alias="high_tom" preprocess="xml-stripblanks">Images/DrumKit/high_tom.svg</file>
+    <file compressed="true" alias="high_tom_active" preprocess="xml-stripblanks">Images/DrumKit/high_tom_active.svg</file>
+    <file compressed="true" alias="mid_tom" preprocess="xml-stripblanks">Images/DrumKit/mid_tom.svg</file>
+    <file compressed="true" alias="mid_tom_active" preprocess="xml-stripblanks">Images/DrumKit/mid_tom_active.svg</file>
+    <file compressed="true" alias="floor_tom" preprocess="xml-stripblanks">Images/DrumKit/floor_tom.svg</file>
+    <file compressed="true" alias="floor_tom_active" preprocess="xml-stripblanks">Images/DrumKit/floor_tom_active.svg</file>
   </gresource>
 </gresources>
