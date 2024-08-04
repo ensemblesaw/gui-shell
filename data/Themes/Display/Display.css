@@ -9,7 +9,7 @@ Mother class for the central display section
 */
 
 .display {
-    font-family: "Exo2";
+    font-family: 'Exo 2';
 }
 
 .display .display-stack {
@@ -548,7 +548,7 @@ Tempo Screen
 .display .tempo-screen .tempo-bpm-label {
     color: #FFF;
     text-shadow: 0px 6px 4px rgba(255, 255, 255, 0.25);
-    font-family: Exo 2;
+    font-family: 'Exo 2';
     font-size: 24px;
     font-style: normal;
     font-weight: 700;
@@ -607,7 +607,7 @@ Menu
 
 .display .menu-item-index {
     font-size: 13px;
-    font-family: 'Michroma';
+    font-family: Michroma;
 }
 
 .display .menu-item-description {

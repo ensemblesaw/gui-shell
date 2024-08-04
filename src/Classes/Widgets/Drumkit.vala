@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+using Ensembles.Models;
+
 namespace Ensembles.GtkShell {
     public class Drumkit : Gtk.Widget, Gtk.Accessible {
 
@@ -27,6 +29,12 @@ namespace Ensembles.GtkShell {
         private const double CRASH_CYMBAL_ASPECT_RATIO = 0.607407;
         private const double FLOOR_TOM_ASPECT_RATIO = 0.481481;
 
+        // Two click gestures to support upto two simultaneous touches
+        private Gtk.GestureClick click_gesture_1;
+        private Gtk.GestureClick click_gesture_2;
+
+        public signal void drum_event (MIDIEvent midi_event);
+
         public Drumkit () {
             Object (
                 accessible_role: Gtk.AccessibleRole.TABLE,
@@ -43,6 +51,7 @@ namespace Ensembles.GtkShell {
 
         construct {
             build_ui ();
+            build_events ();
         }
 
         private void build_ui () {
@@ -87,7 +96,7 @@ namespace Ensembles.GtkShell {
                 Idle.add (() => {
                     if (width != get_width () || height != get_height ()) {
                         // Update content here upon resize:
-                        var __height = parent.get_height () - 1;
+                        var __height = parent.get_height () - 2;
 
                         highhat_button.height_request = __height;
                         highhat_button.width_request = (int) (__height * HIGHHAT_ASPECT_RATIO);
@@ -167,6 +176,142 @@ namespace Ensembles.GtkShell {
                         break;
                 }
             }
+        }
+
+        private void build_events () {
+            click_gesture_1 = new Gtk.GestureClick () {
+                name = "drumkit-gesture",
+                propagation_phase = Gtk.PropagationPhase.CAPTURE
+            };
+
+            click_gesture_1.pressed.connect ((n, x, y) => {
+                handle_touch_start (x, y);
+                click_gesture_2.propagation_phase = Gtk.PropagationPhase.CAPTURE;
+            });
+
+            click_gesture_1.released.connect ((n, x, y) => {
+                click_gesture_2.propagation_phase = Gtk.PropagationPhase.BUBBLE;
+                handle_touch_end (x, y);
+            });
+
+            add_controller (click_gesture_1);
+
+            click_gesture_2 = new Gtk.GestureClick () {
+                name = "drumkit-gesture",
+                propagation_phase = Gtk.PropagationPhase.BUBBLE
+            };
+
+            click_gesture_2.pressed.connect ((n, x, y) => {
+                handle_touch_start (x, y);
+            });
+
+            click_gesture_2.released.connect ((n, x, y) => {
+                handle_touch_end (x, y);
+            });
+
+            add_controller (click_gesture_2);
+        }
+
+        private void handle_touch_start (double x, double y) {
+            double _y = y / get_height ();
+            double _x = (x - 8) / get_height ();
+            print("Start %lf %lf\n", _x, _y);
+
+            // HIGH HAT
+            if (_x > 0.1156 && _x < 0.396 && _y > 0.718) {
+                ui_hit (44);
+            } else if (_x > 0.026 && _x < 0.238 && _y > 0.46 && _y < 0.718) {
+                ui_hit (42);
+            } else if (_x < 0.297 && _y > 0.33 && _y < 0.488) {
+                ui_hit (46);
+            }
+            // SNARE
+            else if (_x > 0.26 && _x < 0.47 && _y > 0.443 && _y < 0.678) {
+                ui_hit (40);
+            }
+            // THIN CYMBAL
+            else if (_x > 0.195 && _x < 0.476 && _y > 0.095 && _y < 0.313) {
+                ui_hit (57);
+            }
+            // CRASH CYMBAL
+            else if (_x > 0.888 && _x < 1.25 && _y > 0.05 && _y < 0.325) {
+                ui_hit (49);
+            }
+            // HIGH TOM
+            else if (_x > 0.468 && _x < 0.633 && _y > 0.308 && _y < 0.473) {
+                ui_hit (45);
+            }
+            // MID TOM
+            else if (_x > 0.743 && _x < 0.935 && _y > 0.264 && _y < 0.5126) {
+                ui_hit (43);
+            }
+            // MID TOM
+            else if (_x > 0.85 && _x < 1.153 && _y > 0.5126) {
+                ui_hit (41);
+            }
+            // KICK
+            else if (_x > 0.5333 && _x < 0.85 && _y > 0.518) {
+                ui_hit (36);
+            }
+        }
+
+        private void handle_touch_end (double x, double y) {
+            double _y = y / get_height ();
+            double _x = (x - 8) / get_height ();
+
+            // HIGH HAT
+            if (_x > 0.1156 && _x < 0.396 && _y > 0.718) {
+                ui_unhit (44);
+            } else if (_x > 0.026 && _x < 0.238 && _y > 0.46 && _y < 0.718) {
+                ui_unhit (42);
+            } else if (_x < 0.297 && _y > 0.33 && _y < 0.488) {
+                ui_unhit (46);
+            }
+            // SNARE
+            else if (_x > 0.26 && _x < 0.47 && _y > 0.443 && _y < 0.678) {
+                ui_unhit (40);
+            }
+            // THIN CYMBAL
+            else if (_x > 0.195 && _x < 0.476 && _y > 0.095 && _y < 0.313) {
+                ui_unhit (57);
+            }
+            // CRASH CYMBAL
+            else if (_x > 0.888 && _x < 1.25 && _y > 0.05 && _y < 0.325) {
+                ui_unhit (49);
+            }
+            // HIGH TOM
+            else if (_x > 0.468 && _x < 0.633 && _y > 0.308 && _y < 0.473) {
+                ui_unhit (45);
+            }
+            // MID TOM
+            else if (_x > 0.743 && _x < 0.935 && _y > 0.264 && _y < 0.5126) {
+                ui_unhit (43);
+            }
+            // MID TOM
+            else if (_x > 0.85 && _x < 1.153 && _y > 0.5126) {
+                ui_unhit (41);
+            }
+            // KICK
+            else if (_x > 0.5333 && _x < 0.85 && _y > 0.518) {
+                ui_unhit (36);
+            }
+        }
+
+        private void ui_hit(uint8 key) {
+            var event = new MIDIEvent ()
+            .on_channel (17) // Channel 17 handles user key events
+            .of_type (MIDIEvent.EventType.NOTE_ON)
+            .with_key (key)
+            .of_velocity (100);
+            drum_event (event);
+        }
+
+        private void ui_unhit (uint8 key) {
+            var event = new MIDIEvent ()
+            .on_channel (17) // Channel 17 handles user key events
+            .of_type (MIDIEvent.EventType.NOTE_OFF)
+            .with_key (key);
+            drum_event (event);
         }
     }
 }

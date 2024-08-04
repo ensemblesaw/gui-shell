@@ -106,6 +106,9 @@ namespace Ensembles.GtkShell.Layouts {
             keyboard.key_event.connect ((event) => {
                 aw_core.send_midi (event);
             });
+            drumkit.drum_event.connect ((event) => {
+                aw_core.send_midi (event);
+            });
             aw_core.on_midi_receive.connect ((event) => {
                 if (event.key >= 36 && event.key < 108) {
                     if (event.event_type == Models.MIDIEvent.EventType.NOTE_ON) {
