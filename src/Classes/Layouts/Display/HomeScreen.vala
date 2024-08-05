@@ -77,7 +77,7 @@ namespace Ensembles.GtkShell.Layouts.Display {
                 height_request = 200
             };
             links_section.add_css_class ("homescreen-links-section");
-            main_box.append(links_section);
+            main_box.append (links_section);
 
             // Top Links ///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -242,30 +242,30 @@ namespace Ensembles.GtkShell.Layouts.Display {
             main_box.append (status_panel);
             status_panel.add_css_class ("homescreen-panel-status");
 
-            var tempo_header = new Gtk.Label(_("Tempo"));
+            var tempo_header = new Gtk.Label (_("Tempo"));
             tempo_header.add_css_class ("homescreen-panel-status-header");
             status_panel.attach (tempo_header, 0, 0);
 
-            var measure_header = new Gtk.Label(_("Measure"));
+            var measure_header = new Gtk.Label (_("Measure"));
             measure_header.add_css_class ("homescreen-panel-status-header");
             status_panel.attach (measure_header, 1, 0);
 
-            var beat_header = new Gtk.Label(_("Time Signature"));
+            var beat_header = new Gtk.Label (_("Time Signature"));
             beat_header.add_css_class ("homescreen-panel-status-header");
             beat_header.add_css_class ("can-be-faded");
             status_panel.attach (beat_header, 2, 0);
 
-            var transpose_header = new Gtk.Label(_("Transpose"));
+            var transpose_header = new Gtk.Label (_("Transpose"));
             transpose_header.add_css_class ("homescreen-panel-status-header");
             transpose_header.add_css_class ("can-be-faded");
             status_panel.attach (transpose_header, 3, 0);
 
-            var octave_header = new Gtk.Label(_("Octave"));
+            var octave_header = new Gtk.Label (_("Octave"));
             octave_header.add_css_class ("homescreen-panel-status-header");
             octave_header.add_css_class ("can-be-faded");
             status_panel.attach (octave_header, 4, 0);
 
-            var chord_header = new Gtk.Label(_("Chord"));
+            var chord_header = new Gtk.Label (_("Chord"));
             chord_header.add_css_class ("homescreen-panel-status-header");
             chord_header.add_css_class ("can-be-faded");
             status_panel.attach (chord_header, 5, 0);
@@ -285,21 +285,21 @@ namespace Ensembles.GtkShell.Layouts.Display {
             tempo_unit_label.add_css_class ("homescreen-panel-status-label-small");
             tempo_box.append (tempo_unit_label);
 
-            measure_label = new Gtk.Label("0");
+            measure_label = new Gtk.Label ("0");
             measure_label.add_css_class ("homescreen-panel-status-label");
             status_panel.attach (measure_label, 1, 1);
 
-            beat_label = new Gtk.Label("4 / 4");
+            beat_label = new Gtk.Label ("4 / 4");
             beat_label.add_css_class ("homescreen-panel-status-label");
             beat_label.add_css_class ("can-be-faded");
             status_panel.attach (beat_label, 2, 1);
 
-            transpose_label = new Gtk.Label("0");
+            transpose_label = new Gtk.Label ("0");
             transpose_label.add_css_class ("homescreen-panel-status-label");
             transpose_label.add_css_class ("can-be-faded");
             status_panel.attach (transpose_label, 3, 1);
 
-            octave_label = new Gtk.Label("0");
+            octave_label = new Gtk.Label ("0");
             octave_label.add_css_class ("homescreen-panel-status-label");
             octave_label.add_css_class ("can-be-faded");
             status_panel.attach (octave_label, 4, 1);
@@ -314,7 +314,7 @@ namespace Ensembles.GtkShell.Layouts.Display {
             chord_grid.add_css_class ("can-be-faded");
             status_panel.attach (chord_grid, 5, 1);
 
-            chord_label = new Gtk.Label(_("C"));
+            chord_label = new Gtk.Label (_("C"));
             chord_label.add_css_class ("homescreen-panel-status-label");
             chord_grid.attach (chord_label, 0, 0, 1, 2);
 

@@ -79,7 +79,7 @@ namespace Ensembles.GtkShell.Widgets {
                 } else {
                     remove_css_class ("illuminated");
                     for (uint8 i = 1; i < 14; i++) {
-                        remove_css_class ("_%u".printf(i));
+                        remove_css_class ("_%u".printf (i));
                     }
                 }
             }

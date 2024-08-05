@@ -149,7 +149,7 @@ namespace Ensembles.GtkShell.Widgets.Display {
         }
 
         private void position_listener () {
-            int pan_x = (int) ((get_width() - 32.0) * (pan / 127.0));
+            int pan_x = (int) ((get_width () - 32.0) * (pan / 127.0));
             int chorus_y = (int) (48 + ((get_height () - 80.0) * (chorus / 127.0)));
 
             listener_area.move (listener, pan_x, chorus_y);
@@ -157,7 +157,7 @@ namespace Ensembles.GtkShell.Widgets.Display {
 
         private void draw (Gtk.DrawingArea meter, Cairo.Context cr, int width, int height) {
             int reverb_radius = (int) ((Math.fmin (width, height) / 2.0) * ((reverb + 16.0) / 133.0));
-            int pan_x = (int) (16 + ((get_width() - 32.0) * (pan / 127.0)));
+            int pan_x = (int) (16 + ((get_width () - 32.0) * (pan / 127.0)));
             int chorus_y = (int) (64 + ((get_height () - 80.0) * (chorus / 127.0)));
 
             cr.arc (pan_x, chorus_y, reverb_radius, 0, 2 * Math.PI);

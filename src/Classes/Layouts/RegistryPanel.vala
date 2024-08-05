@@ -11,5 +11,9 @@ namespace Ensembles.GtkShell.Layouts {
         construct {
             add_css_class ("panel");
         }
+
+        private void build_ui () {
+
+        }
     }
 }

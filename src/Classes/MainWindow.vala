@@ -335,7 +335,7 @@ namespace Ensembles.GtkShell {
         private void load_settings () {
             var device_channel_map = settings.midi_input_channel_map;
             for (uint8 i = 0; i < device_channel_map.length && i < 16; i++) {
-                var map = device_channel_map[i].split(",", 2);
+                var map = device_channel_map[i].split (",", 2);
                 var dev_channel = (uint8) int.parse (map[0]);
                 var dest_channel = (uint8) int.parse (map[1]);
                 aw_core.map_device_channel (dev_channel, dest_channel);

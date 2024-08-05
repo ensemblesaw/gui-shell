@@ -136,7 +136,7 @@ namespace Ensembles.GtkShell.Layouts.Display {
                 }
 
                 menu_item.ui_activate.connect (show_plugin_ui);
-                plugins.nth_data (i).notify["active"].connect(() => {
+                plugins.nth_data (i).notify["active"].connect (() => {
                     handle_plugin_activate ();
                 });
             }

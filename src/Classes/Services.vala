@@ -37,7 +37,9 @@ namespace Ensembles.Services {
     public ServiceToken<Layouts.JoyStick> st_joystick;
     public ServiceToken<Layouts.BeatVisualization> st_beat_visualization;
 
-    public void configure_gtkshell_service (ShellBuilder.ShellBuilderCallback shell_builder_callback) throws VinjectErrors {
+    public void configure_gtkshell_service (
+        ShellBuilder.ShellBuilderCallback shell_builder_callback
+    ) throws VinjectErrors {
         st_app_id = new ServiceToken<string> ();
         st_version = new ServiceToken<string> ();
         st_display_ver = new ServiceToken<string> ();

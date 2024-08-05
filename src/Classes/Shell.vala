@@ -51,7 +51,8 @@ namespace Ensembles.GtkShell {
             options [0] = { "", 0, 0, OptionArg.STRING_ARRAY, ref cl_arg_file, null, "URI" };
             options [1] = { "raw", 0, 0, OptionArg.NONE, ref cl_raw_midi_input, _("Enable Raw MIDI Input"), null };
             options [2] = { "kiosk", 0, 0, OptionArg.NONE, ref cl_kiosk_mode, _("Only show the info display"), null };
-            options [3] = { "verbose", 0, 0, OptionArg.NONE, ref cl_verbose, _("Print debug messages to terminal"), null };
+            options [3] = { "verbose", 0, 0, OptionArg.NONE, ref cl_verbose,
+                _("Print debug messages to terminal"), null };
             options [4] = { null };
 
             var opt_context = new OptionContext ("actions");

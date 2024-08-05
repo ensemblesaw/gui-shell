@@ -43,7 +43,7 @@ namespace Ensembles.GtkShell {
             };
             audio_input_label.add_css_class (Granite.STYLE_CLASS_H4_LABEL);
 
-            var audio_input_buttons = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0) {
+            var audio_input_buttons = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) {
                 margin_top = 8,
                 margin_bottom = 8,
                 margin_start = 8,

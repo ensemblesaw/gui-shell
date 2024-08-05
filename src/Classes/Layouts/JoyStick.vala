@@ -49,7 +49,7 @@ namespace Ensembles.GtkShell.Layouts {
             };
             main_grid.attach (y_assign_button, 1, 0);
 
-            joystick_area = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0) {
+            joystick_area = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) {
                 height_request = 152,
                 width_request = 152
             };
@@ -64,7 +64,7 @@ namespace Ensembles.GtkShell.Layouts {
             touch_feedback.set_draw_func (draw);
         }
 
-        private void draw(Gtk.DrawingArea widget, Cairo.Context ctx, int width, int height) {
+        private void draw (Gtk.DrawingArea widget, Cairo.Context ctx, int width, int height) {
             ctx.set_line_width (1);
             ctx.set_source_rgb (0.2, 0.2, 0.2);
             ctx.move_to (width >> 1, 20);

@@ -140,7 +140,7 @@ namespace Ensembles.GtkShell {
         }
 
         public void animate (uint8 key_index, bool active) {
-            print(key_index.to_string ());
+            //  print (key_index.to_string ());
             if (active) {
                 switch (key_index) {
                     case 35:
@@ -247,7 +247,7 @@ namespace Ensembles.GtkShell {
         private void handle_touch_start (double x, double y) {
             double _y = y / get_height ();
             double _x = (x - 8) / get_height ();
-            print("Start %lf %lf\n", _x, _y);
+            //  print ("Start %lf %lf\n", _x, _y);
 
             // HIGH HAT
             if (_x > 0.1156 && _x < 0.396 && _y > 0.718) {
@@ -329,7 +329,7 @@ namespace Ensembles.GtkShell {
             }
         }
 
-        private void ui_hit(uint8 key) {
+        private void ui_hit (uint8 key) {
             var event = new MIDIEvent ()
             .on_channel (17) // Channel 17 handles user key events
             .of_type (MIDIEvent.EventType.NOTE_ON)
