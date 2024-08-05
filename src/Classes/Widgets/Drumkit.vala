@@ -147,15 +147,31 @@ namespace Ensembles.GtkShell {
                     case 36:
                         kick_button.add_css_class ("active");
                         break;
+                    case 38:
                     case 40:
                         snare_button.add_css_class ("active");
+                        break;
+                    case 41:
+                        floor_tom_button.add_css_class ("active");
+                        break;
+                    case 43:
+                        mid_tom_button.add_css_class ("active");
                         break;
                     case 42:
                     case 44:
                         highhat_button.add_css_class ("closed");
                         break;
+                    case 45:
+                        high_tom_button.add_css_class ("active");
+                        break;
                     case 46:
                         highhat_button.add_css_class ("active");
+                        break;
+                    case 49:
+                        crash_cymbal_button.add_css_class ("active");
+                        break;
+                    case 57:
+                        thin_cymbal_button.add_css_class ("active");
                         break;
                 }
             } else {
@@ -164,15 +180,31 @@ namespace Ensembles.GtkShell {
                     case 36:
                         kick_button.remove_css_class ("active");
                         break;
+                    case 38:
                     case 40:
                         snare_button.remove_css_class ("active");
+                        break;
+                    case 41:
+                        floor_tom_button.remove_css_class ("active");
+                        break;
+                    case 43:
+                        mid_tom_button.remove_css_class ("active");
                         break;
                     case 42:
                     case 44:
                         highhat_button.remove_css_class ("closed");
                         break;
+                    case 45:
+                        high_tom_button.remove_css_class ("active");
+                        break;
                     case 46:
                         highhat_button.remove_css_class ("active");
+                        break;
+                    case 49:
+                        crash_cymbal_button.remove_css_class ("active");
+                        break;
+                    case 57:
+                        thin_cymbal_button.remove_css_class ("active");
                         break;
                 }
             }
@@ -245,7 +277,7 @@ namespace Ensembles.GtkShell {
             else if (_x > 0.743 && _x < 0.935 && _y > 0.264 && _y < 0.5126) {
                 ui_hit (43);
             }
-            // MID TOM
+            // FLOOR TOM
             else if (_x > 0.85 && _x < 1.153 && _y > 0.5126) {
                 ui_hit (41);
             }
@@ -287,7 +319,7 @@ namespace Ensembles.GtkShell {
             else if (_x > 0.743 && _x < 0.935 && _y > 0.264 && _y < 0.5126) {
                 ui_unhit (43);
             }
-            // MID TOM
+            // FLOOR TOM
             else if (_x > 0.85 && _x < 1.153 && _y > 0.5126) {
                 ui_unhit (41);
             }
