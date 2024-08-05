@@ -17,6 +17,7 @@ namespace Ensembles.GtkShell {
             try {
                 var resource_path = Constants.RESOURCE_PATH + "/gresource.gresource";
                 resources_register (Resource.load (resource_path));
+                Granite.init ();
                 Theme.init_theme ();
 
                 Console.log ("Initializing Main Window");

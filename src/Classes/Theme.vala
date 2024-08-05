@@ -26,7 +26,9 @@ namespace Ensembles.GtkShell {
             if (system_theme.has_prefix ("io.elementary.")) {
                 theme_color = theme_value.get_string ().replace ("io.elementary.stylesheet.", "");
             } else {
+                gtk_settings.set_property ("gtk-theme-name", "io.elementary.stylesheet.blueberry");
                 gtk_settings.set_property ("gtk-icon-theme-name", "elementary");
+                theme_color = "blueberry";
             }
 
             if (main_css_provider == null) {
