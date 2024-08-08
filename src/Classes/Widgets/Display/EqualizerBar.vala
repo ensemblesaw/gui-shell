@@ -29,7 +29,7 @@ namespace Ensembles.GtkShell.Widgets.Display {
             level = 0;
 
             Object (
-                height_request: 56,
+                height_request: 42,
                 level: 0,
                 hexpand: true,
                 vexpand: true

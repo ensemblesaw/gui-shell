@@ -9,7 +9,14 @@ namespace Ensembles.GtkShell.Layouts {
         public unowned Settings settings { private get; construct; }
 
         construct {
+            build_ui ();
+        }
+
+        private void build_ui () {
             add_css_class ("panel");
+            hexpand = true;
+            width_request = 420;
+            height_request = 100;
         }
     }
 }

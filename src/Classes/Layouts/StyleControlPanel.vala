@@ -11,18 +11,18 @@ namespace Ensembles.GtkShell.Layouts {
         public unowned Settings settings { private get; construct; }
         public unowned UIMap ui_map { private get; construct; }
 
-        private Widgets.StyledButton intro_1_button;
-        private Widgets.StyledButton intro_2_button;
-        private Widgets.StyledButton intro_3_button;
-        private Widgets.StyledButton break_button;
-        private Widgets.StyledButton variation_a_button;
-        private Widgets.StyledButton variation_b_button;
-        private Widgets.StyledButton variation_c_button;
-        private Widgets.StyledButton variation_d_button;
-        private Widgets.StyledButton ending_1_button;
-        private Widgets.StyledButton ending_2_button;
-        private Widgets.StyledButton ending_3_button;
-        private Widgets.StyledButton sync_start_button;
+        private Widgets.MIDIControllableButton intro_1_button;
+        private Widgets.MIDIControllableButton intro_2_button;
+        private Widgets.MIDIControllableButton intro_3_button;
+        private Widgets.MIDIControllableButton break_button;
+        private Widgets.MIDIControllableButton variation_a_button;
+        private Widgets.MIDIControllableButton variation_b_button;
+        private Widgets.MIDIControllableButton variation_c_button;
+        private Widgets.MIDIControllableButton variation_d_button;
+        private Widgets.MIDIControllableButton ending_1_button;
+        private Widgets.MIDIControllableButton ending_2_button;
+        private Widgets.MIDIControllableButton ending_3_button;
+        private Widgets.MIDIControllableButton sync_start_button;
 
         private StylePartType current_part = StylePartType.VARIATION_A;
         private StylePartType next_part = StylePartType.VARIATION_A;
@@ -79,7 +79,7 @@ namespace Ensembles.GtkShell.Layouts {
             var break_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 2);
             append (break_box);
 
-            break_button = new Widgets.StyledButton.from_icon_name (UI_URI_BREAK, "style-break-symbolic") {
+            break_button = new Widgets.MIDIControllableButton.from_icon_name (UI_URI_BREAK, "style-break-symbolic") {
                 tooltip_text = "Break",
                 has_tooltip = true,
                 hexpand = true,
@@ -100,52 +100,52 @@ namespace Ensembles.GtkShell.Layouts {
             ending_box.append (ending_button_box);
             ending_box.append (new Gtk.Label (_("ENDING")) { opacity = 0.5 } );
 
-            intro_1_button = new Widgets.StyledButton.with_label (UI_URI_INTRO1, _("1")) {
+            intro_1_button = new Widgets.MIDIControllableButton.with_label (UI_URI_INTRO1, _("1")) {
                 height_request = 32
             };
             intro_button_box.append (intro_1_button);
-            intro_2_button = new Widgets.StyledButton.with_label (UI_URI_INTRO2,_("2")) {
+            intro_2_button = new Widgets.MIDIControllableButton.with_label (UI_URI_INTRO2,_("2")) {
                 height_request = 32
             };
             intro_button_box.append (intro_2_button);
-            intro_3_button = new Widgets.StyledButton.with_label (UI_URI_INTRO3,_("3")) {
+            intro_3_button = new Widgets.MIDIControllableButton.with_label (UI_URI_INTRO3,_("3")) {
                 height_request = 32
             };
             intro_button_box.append (intro_3_button);
 
-            variation_a_button = new Widgets.StyledButton.with_label (UI_URI_VARIATION_A,_("A")) {
+            variation_a_button = new Widgets.MIDIControllableButton.with_label (UI_URI_VARIATION_A,_("A")) {
                 height_request = 32
             };
             variation_button_box.append (variation_a_button);
-            variation_b_button = new Widgets.StyledButton.with_label (UI_URI_VARIATION_B,_("B")) {
+            variation_b_button = new Widgets.MIDIControllableButton.with_label (UI_URI_VARIATION_B,_("B")) {
                 height_request = 32
             };
             variation_button_box.append (variation_b_button);
-            variation_c_button = new Widgets.StyledButton.with_label (UI_URI_VARIATION_C,_("C")) {
+            variation_c_button = new Widgets.MIDIControllableButton.with_label (UI_URI_VARIATION_C,_("C")) {
                 height_request = 32
             };
             variation_button_box.append (variation_c_button);
-            variation_d_button = new Widgets.StyledButton.with_label (UI_URI_VARIATION_D,_("D")) {
+            variation_d_button = new Widgets.MIDIControllableButton.with_label (UI_URI_VARIATION_D,_("D")) {
                 height_request = 32
             };
             variation_button_box.append (variation_d_button);
 
-            ending_1_button = new Widgets.StyledButton.with_label (UI_URI_ENDING1,_("1")) {
+            ending_1_button = new Widgets.MIDIControllableButton.with_label (UI_URI_ENDING1,_("1")) {
                 height_request = 32
             };
             ending_button_box.append (ending_1_button);
-            ending_2_button = new Widgets.StyledButton.with_label (UI_URI_ENDING2,_("2")) {
+            ending_2_button = new Widgets.MIDIControllableButton.with_label (UI_URI_ENDING2,_("2")) {
                 height_request = 32
             };
             ending_button_box.append (ending_2_button);
-            ending_3_button = new Widgets.StyledButton.with_label (UI_URI_ENDING3,_("3")) {
+            ending_3_button = new Widgets.MIDIControllableButton.with_label (UI_URI_ENDING3,_("3")) {
                 height_request = 32
             };
             ending_button_box.append (ending_3_button);
 
             var sync_start_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 2);
             append (sync_start_box);
-            sync_start_button = new Widgets.StyledButton.from_icon_name (UI_URI_SYNC, "style-sync-start-symbolic") {
+            sync_start_button = new Widgets.MIDIControllableButton.from_icon_name (UI_URI_SYNC, "style-sync-start-symbolic") {
                 tooltip_text = "Sync Start / Stop",
                 has_tooltip = true,
                 hexpand = true,

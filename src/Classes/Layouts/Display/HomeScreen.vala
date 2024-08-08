@@ -236,8 +236,7 @@ namespace Ensembles.GtkShell.Layouts.Display {
             status_panel = new Gtk.Grid () {
                 vexpand = true,
                 hexpand = true,
-                column_homogeneous = true,
-                height_request = 175
+                height_request = 150
             };
             main_box.append (status_panel);
             status_panel.add_css_class ("homescreen-panel-status");
@@ -351,7 +350,7 @@ namespace Ensembles.GtkShell.Layouts.Display {
                 equalizer_grid.attach (equalizer_bars[i], i, 0, 1, 1);
 
                 modulator_buttons[i] = new Gtk.Button.with_label ((i + 1).to_string ());
-                modulator_buttons[i].height_request = 30;
+                modulator_buttons[i].height_request = 24;
                 modulator_buttons[i].add_css_class ("bolder");
 
                 equalizer_grid.attach (modulator_buttons[i], i, 1, 1, 1);
@@ -363,7 +362,7 @@ namespace Ensembles.GtkShell.Layouts.Display {
             equalizer_bars[16].b = eq_color[2];
             equalizer_grid.attach (equalizer_bars[16], 16, 0, 1, 1);
             modulator_buttons[16] = new Gtk.Button.with_label ("L") {
-                height_request = 24
+                height_request = 20
             };
             modulator_buttons[16].add_css_class ("bolder");
             equalizer_grid.attach (modulator_buttons[16], 16, 1, 1, 1);
@@ -407,6 +406,9 @@ namespace Ensembles.GtkShell.Layouts.Display {
         }
 
         private void build_events () {
+            notify.connect ((param) => {
+                print(">>>>> %s\n", param.name);
+            });
             style_button.clicked.connect (() => {
                 change_screen ("style");
                 mod_screen.close ();
@@ -696,6 +698,10 @@ namespace Ensembles.GtkShell.Layouts.Display {
 
         public void set_measure (uint measure) {
             measure_label.set_text (measure.to_string ());
+        }
+
+        protected override void size_allocate (int width, int height, int baseline) {
+            print(">>>>> %d\n", width);
         }
     }
 }

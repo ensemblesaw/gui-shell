@@ -10,17 +10,31 @@ namespace Ensembles.GtkShell.Layouts {
         public unowned UIMap ui_map { private get; construct; }
 
         private Gtk.SpinButton bank_select;
-        private Widgets.StyledButton registry_0_button;
-        private Widgets.StyledButton registry_1_button;
-        private Widgets.StyledButton registry_2_button;
-        private Widgets.StyledButton registry_3_button;
-        private Widgets.StyledButton registry_4_button;
-        private Widgets.StyledButton registry_5_button;
-        private Widgets.StyledButton registry_6_button;
-        private Widgets.StyledButton registry_7_button;
-        private Widgets.StyledButton registry_8_button;
-        private Widgets.StyledButton registry_9_button;
+        private Widgets.MIDIControllableButton registry_0_button;
+        private Widgets.MIDIControllableButton registry_1_button;
+        private Widgets.MIDIControllableButton registry_2_button;
+        private Widgets.MIDIControllableButton registry_3_button;
+        private Widgets.MIDIControllableButton registry_4_button;
+        private Widgets.MIDIControllableButton registry_5_button;
+        private Widgets.MIDIControllableButton registry_6_button;
+        private Widgets.MIDIControllableButton registry_7_button;
+        private Widgets.MIDIControllableButton registry_8_button;
+        private Widgets.MIDIControllableButton registry_9_button;
         private Gtk.Button memorize_button;
+
+        // URIS
+        public const string UI_URI_BANK_UP = "gtk.registry.bank_up";
+        public const string UI_URI_BANK_DOWN = "gtk.registry.bank_down";
+        public const string UI_URI_SLOT_0 = "gtk.registry.slot_0";
+        public const string UI_URI_SLOT_1 = "gtk.registry.slot_1";
+        public const string UI_URI_SLOT_2 = "gtk.registry.slot_2";
+        public const string UI_URI_SLOT_3 = "gtk.registry.slot_3";
+        public const string UI_URI_SLOT_4 = "gtk.registry.slot_4";
+        public const string UI_URI_SLOT_5 = "gtk.registry.slot_5";
+        public const string UI_URI_SLOT_6 = "gtk.registry.slot_6";
+        public const string UI_URI_SLOT_7 = "gtk.registry.slot_7";
+        public const string UI_URI_SLOT_8 = "gtk.registry.slot_8";
+        public const string UI_URI_SLOT_9 = "gtk.registry.slot_9";
 
         construct {
             build_ui ();
@@ -50,36 +64,36 @@ namespace Ensembles.GtkShell.Layouts {
             registry_btn_box.add_css_class (Granite.STYLE_CLASS_LINKED);
             registry_box.append (registry_btn_box);
 
-            registry_0_button = new Widgets.StyledButton.with_label ("registry-0", "0") {
+            registry_0_button = new Widgets.MIDIControllableButton.with_label (UI_URI_SLOT_0, "0") {
                 height_request = 32
             };
             registry_btn_box.append (registry_0_button);
 
-            registry_1_button = new Widgets.StyledButton.with_label ("registry-1", "1");
+            registry_1_button = new Widgets.MIDIControllableButton.with_label (UI_URI_SLOT_1, "1");
             registry_btn_box.append (registry_1_button);
 
-            registry_2_button = new Widgets.StyledButton.with_label ("registry-2", "2");
+            registry_2_button = new Widgets.MIDIControllableButton.with_label (UI_URI_SLOT_2, "2");
             registry_btn_box.append (registry_2_button);
 
-            registry_3_button = new Widgets.StyledButton.with_label ("registry-3", "3");
+            registry_3_button = new Widgets.MIDIControllableButton.with_label (UI_URI_SLOT_3, "3");
             registry_btn_box.append (registry_3_button);
 
-            registry_4_button = new Widgets.StyledButton.with_label ("registry-4", "4");
+            registry_4_button = new Widgets.MIDIControllableButton.with_label (UI_URI_SLOT_4, "4");
             registry_btn_box.append (registry_4_button);
 
-            registry_5_button = new Widgets.StyledButton.with_label ("registry-5", "5");
+            registry_5_button = new Widgets.MIDIControllableButton.with_label (UI_URI_SLOT_5, "5");
             registry_btn_box.append (registry_5_button);
 
-            registry_6_button = new Widgets.StyledButton.with_label ("registry-6", "6");
+            registry_6_button = new Widgets.MIDIControllableButton.with_label (UI_URI_SLOT_6, "6");
             registry_btn_box.append (registry_6_button);
 
-            registry_7_button = new Widgets.StyledButton.with_label ("registry-7", "7");
+            registry_7_button = new Widgets.MIDIControllableButton.with_label (UI_URI_SLOT_7, "7");
             registry_btn_box.append (registry_7_button);
 
-            registry_8_button = new Widgets.StyledButton.with_label ("registry-8", "8");
+            registry_8_button = new Widgets.MIDIControllableButton.with_label (UI_URI_SLOT_8, "8");
             registry_btn_box.append (registry_8_button);
 
-            registry_9_button = new Widgets.StyledButton.with_label ("registry-9", "9");
+            registry_9_button = new Widgets.MIDIControllableButton.with_label (UI_URI_SLOT_9, "9");
             registry_btn_box.append (registry_9_button);
 
             registry_box.append (new Gtk.Label (_("REGISTRY MEMORY")) { opacity = 0.5 } );

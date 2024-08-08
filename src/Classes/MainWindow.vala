@@ -38,6 +38,8 @@ namespace Ensembles.GtkShell {
         private Dialog.MIDIAssignDialog midi_assign_dialog;
 
         // Responsive UI
+        private unowned DesktopLayout desktop_layout;
+        private unowned MobileLayout mobile_layout;
         private Adw.Squeezer squeezer;
         private Gtk.ToggleButton flap_button;
         private bool flap_revealed = true;
@@ -100,7 +102,7 @@ namespace Ensembles.GtkShell {
             flap_button.remove_css_class ("image-button");
             flap_button.clicked.connect (() => {
                 try {
-                    flap_revealed = di_container.obtain (st_mobile_layout).show_menu (flap_revealed);
+                    flap_revealed = mobile_layout.show_menu (flap_revealed);
                 } catch (Vinject.VinjectErrors e) {
                     error (e.message);
                 }
@@ -198,13 +200,10 @@ namespace Ensembles.GtkShell {
                 keyboard: st_keyboard_panel,
                 joystick: st_joystick
             );
+            desktop_layout = di_container.obtain (st_desktop_layout);
 
-            Console.log ("hellossss");
-            var _desktop_l = di_container.obtain (st_desktop_layout);
-            Console.log ("hellosadaadsss");
-            if (_desktop_l == null) {Console.log ("oiuhjniuhiuhiu");}
-            squeezer.add (_desktop_l);
-            di_container.obtain (st_desktop_layout).reparent ();
+            squeezer.add (desktop_layout);
+            desktop_layout.reparent ();
 
             di_container.register_singleton<MobileLayout, ControlSurface> (
                 st_mobile_layout,
@@ -220,7 +219,9 @@ namespace Ensembles.GtkShell {
                 keyboard: st_keyboard_panel,
                 joystick: st_joystick
             );
-            squeezer.add (di_container.obtain (st_mobile_layout));
+
+            mobile_layout = di_container.obtain (st_mobile_layout);
+            squeezer.add (mobile_layout);
         }
 
         public void show_ui () {
@@ -257,9 +258,6 @@ namespace Ensembles.GtkShell {
 
             notify["default-height"].connect (() => {
                 try {
-                    var mobile_layout = di_container.obtain (st_mobile_layout);
-                    var desktop_layout = di_container.obtain (st_desktop_layout);
-
                     if (!using_kiosk_layout) {
                         flap_button.visible = squeezer.get_visible_child () == mobile_layout;
 
@@ -278,9 +276,6 @@ namespace Ensembles.GtkShell {
             notify["maximized"].connect (() => {
                 //  fullscreen ();
                 try {
-                    var mobile_layout = di_container.obtain (st_mobile_layout);
-                    var desktop_layout = di_container.obtain (st_desktop_layout);
-
                     Timeout.add (100, () => {
                         if (!using_kiosk_layout) {
                             flap_button.visible = squeezer.get_visible_child () == mobile_layout;
@@ -298,7 +293,7 @@ namespace Ensembles.GtkShell {
                 }
             });
 
-            di_container.obtain (st_mobile_layout).on_menu_show_change.connect ((shown) => {
+            mobile_layout.on_menu_show_change.connect ((shown) => {
                 flap_revealed = !shown;
                 flap_button.active = shown;
             });
