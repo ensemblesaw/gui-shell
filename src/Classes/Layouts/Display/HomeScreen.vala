@@ -5,7 +5,7 @@
 
 using Ensembles.Models;
 namespace Ensembles.GtkShell.Layouts.Display {
-    public class HomeScreen : Gtk.Box {
+    public class HomeScreen : Adw.Bin {
         public bool kiosk_mode { get; protected set; }
 
         private Gtk.Overlay main_overlay;
@@ -40,12 +40,17 @@ namespace Ensembles.GtkShell.Layouts.Display {
         private Gtk.Label chord_flat_label;
         private Gtk.Label chord_type_label;
 
+        private Gtk.Grid equalizer_grid;
         private Widgets.Display.EqualizerBar[] equalizer_bars;
         private Gtk.Button[] modulator_buttons;
 
         private Gtk.Stack overlay_stack;
         private ModulatorScreen mod_screen;
         private TempoScreen tempo_screen;
+
+
+        private int width;
+        private bool update = true;
 
         public signal void change_screen (string screen_name);
 
@@ -54,10 +59,12 @@ namespace Ensembles.GtkShell.Layouts.Display {
 
         public HomeScreen (bool kiosk_mode) {
             Object (
-                orientation: Gtk.Orientation.VERTICAL,
-                spacing: 0,
                 kiosk_mode: kiosk_mode
             );
+        }
+
+        ~HomeScreen () {
+            update = false;
         }
 
         construct {
@@ -67,7 +74,7 @@ namespace Ensembles.GtkShell.Layouts.Display {
 
         private void build_ui () {
             main_overlay = new Gtk.Overlay ();
-            append (main_overlay);
+            set_child (main_overlay);
 
             main_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             main_overlay.set_child (main_box);
@@ -325,12 +332,12 @@ namespace Ensembles.GtkShell.Layouts.Display {
             chord_type_label.add_css_class ("homescreen-panel-status-label-small");
             chord_grid.attach (chord_type_label, 1, 1);
 
-            var equalizer_grid = new Gtk.Grid () {
+            equalizer_grid = new Gtk.Grid () {
                 column_homogeneous = true,
                 margin_start = 8,
                 margin_end = 8,
                 margin_bottom = 8,
-                column_spacing = 8,
+                column_spacing = 4,
                 row_spacing = 8,
                 vexpand = true
             };
@@ -406,9 +413,18 @@ namespace Ensembles.GtkShell.Layouts.Display {
         }
 
         private void build_events () {
-            notify.connect ((param) => {
-                print(">>>>> %s\n", param.name);
+            // Similar to css media query
+            add_tick_callback ((widget, frame_clock) => {
+                if (width != get_width ()) {
+                    width = get_width ();
+
+                    status_panel.column_homogeneous = width > 656;
+                    equalizer_grid.column_spacing = width > 656 ? 8 : 4;
+                }
+
+                return update;
             });
+
             style_button.clicked.connect (() => {
                 change_screen ("style");
                 mod_screen.close ();
@@ -698,10 +714,6 @@ namespace Ensembles.GtkShell.Layouts.Display {
 
         public void set_measure (uint measure) {
             measure_label.set_text (measure.to_string ());
-        }
-
-        protected override void size_allocate (int width, int height, int baseline) {
-            print(">>>>> %d\n", width);
         }
     }
 }

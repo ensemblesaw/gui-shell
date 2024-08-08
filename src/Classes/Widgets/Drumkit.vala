@@ -92,7 +92,7 @@ namespace Ensembles.GtkShell {
             highhat_button.add_css_class ("drumkit-highhat");
             fixed.put (highhat_button, 0, 0);
 
-            Timeout.add (80, () => {
+            add_tick_callback (() => {
                 Idle.add (() => {
                     if (width != get_width () || height != get_height ()) {
                         // Update content here upon resize:
@@ -136,7 +136,7 @@ namespace Ensembles.GtkShell {
                     return false;
                 }, Priority.LOW);
                 return update;
-            }, Priority.LOW);
+            });
         }
 
         public void animate (uint8 key_index, bool active) {

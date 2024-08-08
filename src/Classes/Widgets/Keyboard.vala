@@ -83,7 +83,7 @@ namespace Ensembles.GtkShell.Widgets {
                 motion_y[i] = 0;
             }
 
-            Timeout.add (80, () => {
+            add_tick_callback (() => {
                 Idle.add (() => {
                     if (width != get_width () || height != get_height ()) {
                         for (uint8 i = 0; i < n_octaves; i++) {
@@ -97,7 +97,7 @@ namespace Ensembles.GtkShell.Widgets {
                     return false;
                 }, Priority.LOW);
                 return update;
-            }, Priority.LOW);
+            });
         }
 
         private void build_events () {
