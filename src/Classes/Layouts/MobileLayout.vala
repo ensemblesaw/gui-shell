@@ -32,6 +32,8 @@ namespace Ensembles.GtkShell.Layouts {
 
         private Gtk.ListBox menu_box;
 
+        public bool active;
+
         public signal void on_menu_show_change (bool shown);
 
         construct {
@@ -40,8 +42,8 @@ namespace Ensembles.GtkShell.Layouts {
         }
 
         private void build_ui () {
-            width_request = 812;
-            height_request = 375;
+            width_request = 800;
+            height_request = 120;
 
             flap = new Adw.Flap ();
             attach (flap, 0, 0);
@@ -114,22 +116,26 @@ namespace Ensembles.GtkShell.Layouts {
         }
 
         public void reparent () {
-            assignables_board.unparent ();
-            info_display.unparent ();
-            synth_control_panel.unparent ();
-            voice_nav_panel.unparent ();
-            mixer_board.unparent ();
-            sampler_pads_panel.unparent ();
-            style_control_panel.unparent ();
-            registry_panel.unparent ();
-            keyboard.unparent ();
+            if (!active) {
+                active = true;
+                print ("Mobile\n");
+                assignables_board.unparent ();
+                info_display.unparent ();
+                synth_control_panel.unparent ();
+                voice_nav_panel.unparent ();
+                mixer_board.unparent ();
+                sampler_pads_panel.unparent ();
+                style_control_panel.unparent ();
+                registry_panel.unparent ();
+                keyboard.unparent ();
 
-            infoview.attach (info_display, 0, 0);
-            info_display.fill_screen = true;
+                infoview.attach (info_display, 0, 0);
+                info_display.fill_screen = true;
 
-            style_controller_socket.append (style_control_panel);
-            registry_socket.append (registry_panel);
-            keyboardview.attach (keyboard, 0, 1);
+                style_controller_socket.append (style_control_panel);
+                registry_socket.append (registry_panel);
+                keyboardview.attach (keyboard, 0, 1);
+            }
         }
 
         private void build_events () {

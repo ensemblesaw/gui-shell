@@ -81,7 +81,7 @@ namespace Ensembles.GtkShell.Layouts.Display {
 
             main_box.add_css_class ("homescreen");
             links_section = new Gtk.Box (Gtk.Orientation.VERTICAL, 0) {
-                height_request = 200
+                height_request = 148
             };
             links_section.add_css_class ("homescreen-links-section");
             main_box.append (links_section);

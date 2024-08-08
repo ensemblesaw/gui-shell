@@ -16,7 +16,7 @@ namespace Ensembles.GtkShell.Layouts {
             add_css_class ("panel");
             hexpand = true;
             vexpand = true;
-            width_request = 420;
+            width_request = 360;
             height_request = 300;
         }
     }

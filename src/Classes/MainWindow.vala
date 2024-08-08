@@ -43,6 +43,9 @@ namespace Ensembles.GtkShell {
         private Adw.Squeezer squeezer;
         private Gtk.ToggleButton flap_button;
         private bool flap_revealed = true;
+        private int width;
+        private int height;
+        private bool update = true;
 
         // Assignable controls
         uint32 selected_route_sig;
@@ -86,6 +89,9 @@ namespace Ensembles.GtkShell {
                 );
                 set_child (di_container.obtain (st_kiosk_layout));
                 return;
+            } else {
+                set_default_size (1280, 720);
+                set_size_request (873, 393);
             }
 
             // Make headerbar
@@ -128,9 +134,7 @@ namespace Ensembles.GtkShell {
             di_container.register_transient<ContextMenu, Gtk.Popover> (st_context_menu);
 
             squeezer = new Adw.Squeezer () {
-                orientation = Gtk.Orientation.VERTICAL,
-                transition_type = Adw.SqueezerTransitionType.CROSSFADE,
-                transition_duration = 400
+                orientation = Gtk.Orientation.VERTICAL
             };
             set_child (squeezer);
 
@@ -256,42 +260,26 @@ namespace Ensembles.GtkShell {
                 load_settings ();
             });
 
-            notify["default-height"].connect (() => {
-                try {
+            add_tick_callback (() => {
+                if (width != get_width () || height != get_height ()) {
+                    width = get_width ();
+                    height = get_height ();
+
                     if (!using_kiosk_layout) {
                         flap_button.visible = squeezer.get_visible_child () == mobile_layout;
 
                         if (squeezer.get_visible_child () == desktop_layout) {
+                            mobile_layout.active = false;
                             desktop_layout.reparent ();
                         } else {
-                            mobile_layout.reparent ();
                             desktop_layout.active = false;
+                            mobile_layout.reparent ();
                         }
                     }
-                } catch (Vinject.VinjectErrors e) {
-                    error (e.message);
                 }
+                return true;
             });
 
-            notify["maximized"].connect (() => {
-                //  fullscreen ();
-                try {
-                    Timeout.add (100, () => {
-                        if (!using_kiosk_layout) {
-                            flap_button.visible = squeezer.get_visible_child () == mobile_layout;
-
-                            if (squeezer.get_visible_child () == desktop_layout) {
-                                desktop_layout.reparent ();
-                            } else {
-                                mobile_layout.reparent ();
-                            }
-                        }
-                        return false;
-                    });
-                } catch (Vinject.VinjectErrors e) {
-                    error (e.message);
-                }
-            });
 
             mobile_layout.on_menu_show_change.connect ((shown) => {
                 flap_revealed = !shown;
