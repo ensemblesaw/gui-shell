@@ -46,7 +46,7 @@ namespace Ensembles.GtkShell.Plugins.AudioPlugins.Widgets {
             add_css_class (Granite.STYLE_CLASS_CARD);
 
             control_label = new Gtk.Label (port.name) {
-                margin_top = 16,
+                margin_top = 12,
                 margin_start = 16,
                 margin_end = 16
             };
@@ -64,10 +64,11 @@ namespace Ensembles.GtkShell.Plugins.AudioPlugins.Widgets {
                     height_request = 150,
                     margin_start = 16,
                     margin_end = 16,
-                    margin_top = 16,
+                    margin_top = 12,
                     margin_bottom = 16,
                     draw_value = true
                 };
+                knob.add_css_class ("dark");
 
                 append (knob);
 

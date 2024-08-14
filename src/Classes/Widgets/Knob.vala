@@ -1,5 +1,5 @@
 /*
- * Copyright 2020-2023 Subhadeep Jasu <subhadeep107@proton.me>
+ * Copyright 2020-2024 Subhadeep Jasu <subhadeep107@proton.me>
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -77,6 +77,22 @@ namespace Ensembles.GtkShell.Widgets {
          * Whether the current value is displayed as a string inside the knob.
          */
         public bool draw_value { get; set; }
+        private uint _meter_padding = 7;
+
+        /**
+         * Padding between the meter and the edge of the knob.
+         */
+        public uint meter_padding {
+            get {
+                return _meter_padding;
+            }
+            set {
+                _meter_padding = value;
+            }
+        }
+
+        public bool draw_dot { get; set; }
+        public double dot_offset { get; set; default = 0.4; }
 
         private uint radius = 0;
 
@@ -201,7 +217,7 @@ namespace Ensembles.GtkShell.Widgets {
                 1
             );
             // Draw meter
-            ctx.arc (radius + 0.2, radius, radius - 7,
+            ctx.arc (radius + 0.2, radius, radius - meter_padding,
                 pointing_angle_lower * (Math.PI / 180.0),
                 pointing_angle * (Math.PI / 180.0));
             ctx.set_line_width (2);
@@ -225,6 +241,14 @@ namespace Ensembles.GtkShell.Widgets {
 
                 ctx.set_source_rgba (1, 1, 1, adjustment.value == mark ? 1 : 0.3);
                 ctx.stroke ();
+            }
+
+            if (draw_dot) {
+                var px = (radius * dot_offset) * Math.cos (pointing_angle * (Math.PI / 180));
+                var py = (radius * dot_offset) * Math.sin (pointing_angle * (Math.PI / 180));
+                ctx.set_source_rgba (0.5, 0.5, 0.5, 0.75);
+                ctx.arc (px + radius, py + radius, 2, 0, 2 * Math.PI);
+                ctx.fill ();
             }
 
             if (draw_value) {

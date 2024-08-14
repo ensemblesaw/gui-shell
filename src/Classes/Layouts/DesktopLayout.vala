@@ -59,18 +59,19 @@ namespace Ensembles.GtkShell.Layouts {
             attach (center_box, 0, 0);
 
             left_column = new Gtk.Box (Gtk.Orientation.VERTICAL, 0) {
-                vexpand = true
+                vexpand = true,
+                hexpand = true
             };
             center_box.set_start_widget (left_column);
 
             center_column = new Gtk.Box (Gtk.Orientation.VERTICAL, 0) {
-                vexpand = true,
-                hexpand = true
+                vexpand = true
             };
             center_box.set_center_widget (center_column);
 
             right_column = new Gtk.Box (Gtk.Orientation.VERTICAL, 0) {
-                vexpand = true
+                vexpand = true,
+                hexpand = true
             };
             center_box.set_end_widget (right_column);
 
@@ -127,7 +128,7 @@ namespace Ensembles.GtkShell.Layouts {
 
             start_button = new Gtk.Button.from_icon_name ("media-playback-start-symbolic") {
                 width_request = 64,
-                height_request = 32
+                height_request = 28
             };
             start_button.add_css_class (Granite.STYLE_CLASS_DESTRUCTIVE_ACTION);
             start_button.remove_css_class ("image-button");
@@ -190,6 +191,8 @@ namespace Ensembles.GtkShell.Layouts {
                             center_box.set_end_widget (right_column);
                             center_box.visible = true;
                         }
+
+                        center_column.width_request = (int) (0.4 * width);
                     } else {
                         if (!collapsed_view) {
                             collapsed_view = true;

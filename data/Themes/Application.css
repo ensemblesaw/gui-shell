@@ -119,6 +119,61 @@ button.pulse-fill {
     background-position: 0px -128px;
 }
 
+.knob {
+    background: none;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1px #0008, inset 0 3px 6px #333c, 0 1px 0 #fff3, 0 8px 16px #0004, 0 -8px 16px #fff2;
+}
+
+.knob.opaque {
+	background: #0008;
+}
+
+.knob-cover {
+    background: radial-gradient(75% 75% at 50% 25%, shade(@bg_color, 1.5), shade(@bg_color, 0.8));
+    box-shadow: 0 0 0 2px #2228, 0 2px 8px #000a, inset 0 1px 1px #fff4, inset 0 -1px 1px #0008;
+    border: none;
+    border-radius: 50%;
+    margin: 4px;
+    transition: background 0.2s linear;
+}
+
+.knob-cover.dark {
+    background: radial-gradient(75% 75% at 50% 25%, #444, #2227);
+    box-shadow: 0 0 0 2px #2228, 0 2px 8px #000a, inset 0 1px 1px #fff4, inset 0 -1px 1px #0008;
+}
+
+.master-knob-cover {
+    margin: 6px;
+    background: @bg_color;
+    box-shadow: 0 0 0 2px #0008, 0 2px 8px #000a, inset 0 1px 1px #fff4, inset 0 -1px 1px #0008, 0 0 32px alpha(@accent_color, 0.6);
+    border: 10px solid @accent_color;
+    animation: master_knob_idle 2s ease-out infinite;
+}
+
+.secondary-knob-cover {
+    background: radial-gradient(75% 75% at 50% 25%, #6663, #8884);
+    box-shadow: 0 8px 8px #0008, 0 -8px 8px #fff4, 0 0 0 1px #0008, inset 0 1px #fff3;
+    border-radius: 100%;
+}
+
+@keyframes master_knob_idle {
+    0% {
+        border: 10px solid #222;
+        box-shadow: 0 0 0 2px #0008, 0 2px 8px #000a, inset 0 1px 1px #fff4, inset 0 -1px 1px #0008, 0 0 0px alpha(@accent_color, 0);
+    }
+
+    30% {
+        border: 10px solid @accent_color;
+        box-shadow: 0 0 0 2px #0008, 0 2px 8px #000a, inset 0 1px 1px #fff4, inset 0 -1px 1px #0008, 0 0 32px alpha(@accent_color, 0.6);
+    }
+
+    100% {
+        border: 10px solid #222;
+        box-shadow: 0 0 0 2px #0008, 0 2px 8px #000a, inset 0 1px 1px #fff4, inset 0 -1px 1px #0008, 0 0 0px alpha(@accent_color, 0);
+    }
+}
+
 .adw-listbox>row {
     margin: 8px;
     padding: 12px;

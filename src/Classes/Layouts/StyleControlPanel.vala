@@ -83,7 +83,7 @@ namespace Ensembles.GtkShell.Layouts {
                 tooltip_text = "Break",
                 has_tooltip = true,
                 hexpand = true,
-                height_request = 32
+                height_request = 28
             };
             break_button.remove_css_class ("image-button");
             break_box.append (break_button);
@@ -101,45 +101,45 @@ namespace Ensembles.GtkShell.Layouts {
             ending_box.append (new Gtk.Label (_("ENDING")) { opacity = 0.5 } );
 
             intro_1_button = new Widgets.MIDIControllableButton.with_label (UI_URI_INTRO1, _("1")) {
-                height_request = 32
+                height_request = 28
             };
             intro_button_box.append (intro_1_button);
             intro_2_button = new Widgets.MIDIControllableButton.with_label (UI_URI_INTRO2,_("2")) {
-                height_request = 32
+                height_request = 28
             };
             intro_button_box.append (intro_2_button);
             intro_3_button = new Widgets.MIDIControllableButton.with_label (UI_URI_INTRO3,_("3")) {
-                height_request = 32
+                height_request = 28
             };
             intro_button_box.append (intro_3_button);
 
             variation_a_button = new Widgets.MIDIControllableButton.with_label (UI_URI_VARIATION_A,_("A")) {
-                height_request = 32
+                height_request = 28
             };
             variation_button_box.append (variation_a_button);
             variation_b_button = new Widgets.MIDIControllableButton.with_label (UI_URI_VARIATION_B,_("B")) {
-                height_request = 32
+                height_request = 28
             };
             variation_button_box.append (variation_b_button);
             variation_c_button = new Widgets.MIDIControllableButton.with_label (UI_URI_VARIATION_C,_("C")) {
-                height_request = 32
+                height_request = 28
             };
             variation_button_box.append (variation_c_button);
             variation_d_button = new Widgets.MIDIControllableButton.with_label (UI_URI_VARIATION_D,_("D")) {
-                height_request = 32
+                height_request = 28
             };
             variation_button_box.append (variation_d_button);
 
             ending_1_button = new Widgets.MIDIControllableButton.with_label (UI_URI_ENDING1,_("1")) {
-                height_request = 32
+                height_request = 28
             };
             ending_button_box.append (ending_1_button);
             ending_2_button = new Widgets.MIDIControllableButton.with_label (UI_URI_ENDING2,_("2")) {
-                height_request = 32
+                height_request = 28
             };
             ending_button_box.append (ending_2_button);
             ending_3_button = new Widgets.MIDIControllableButton.with_label (UI_URI_ENDING3,_("3")) {
-                height_request = 32
+                height_request = 28
             };
             ending_button_box.append (ending_3_button);
 
@@ -149,7 +149,7 @@ namespace Ensembles.GtkShell.Layouts {
                 tooltip_text = "Sync Start / Stop",
                 has_tooltip = true,
                 hexpand = true,
-                height_request = 32
+                height_request = 28
             };
             sync_start_button.remove_css_class ("image-button");
             sync_start_box.append (sync_start_button);

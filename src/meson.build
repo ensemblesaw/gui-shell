@@ -49,12 +49,14 @@ classes = files (
 
     'Classes/Widgets/DeviceItem.vala',
     'Classes/Widgets/Knob.vala',
+    'Classes/Widgets/MasterKnob.vala',
     'Classes/Widgets/Key.vala',
     'Classes/Widgets/Octave.vala',
     'Classes/Widgets/Keyboard.vala',
     'Classes/Widgets/Drumkit.vala',
     'Classes/Widgets/ContextMenu.vala',
-    'Classes/Widgets/StyledButton.vala',
+    'Classes/Widgets/MIDIControllableButton.vala',
+    'Classes/Widgets/ToggleButton.vala',
 
     'Classes/Widgets/Display/WheelScrollableWidget.vala',
     'Classes/Widgets/Display/VoiceMenuItem.vala',

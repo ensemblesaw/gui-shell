@@ -48,7 +48,7 @@ namespace Ensembles.GtkShell.Layouts {
 
             var bank_select_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 2);
             bank_select = new Gtk.SpinButton.with_range (1, 16, 1) {
-                height_request = 32,
+                height_request = 28,
                 digits = 0
             };
             bank_select_box.append (bank_select);
@@ -65,7 +65,7 @@ namespace Ensembles.GtkShell.Layouts {
             registry_box.append (registry_btn_box);
 
             registry_0_button = new Widgets.MIDIControllableButton.with_label (UI_URI_SLOT_0, "0") {
-                height_request = 32
+                height_request = 28
             };
             registry_btn_box.append (registry_0_button);
 
@@ -101,7 +101,7 @@ namespace Ensembles.GtkShell.Layouts {
             var memorize_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 2);
             append (memorize_box);
             memorize_button = new Gtk.Button.from_icon_name ("go-down-symbolic") {
-                height_request = 32
+                height_request = 28
             };
             memorize_button.remove_css_class ("image-button");
             memorize_box.append (memorize_button);
