@@ -8,7 +8,7 @@ namespace Ensembles.GtkShell.Widgets {
     /**
      * A `Knob` is a rotary control used to select a numeric value
      */
-    public class Knob : Gtk.Widget, Gtk.Accessible {
+    public class Knob : Gtk.Widget, Gtk.Accessible, MIDIControllable {
         /**
          * The adjustment that is controlled by the knob.
          */
@@ -104,10 +104,11 @@ namespace Ensembles.GtkShell.Widgets {
          * @param adjustment the [class@Gtk.Adjustment] which sets the range of
          * the knob, or null to create a new adjustment.
          */
-        public Knob (Gtk.Adjustment? adjustment = null) {
+        public Knob (Gtk.Adjustment? adjustment = null, string? uri = "") {
             Object (
                 name: "knob",
-                accessible_role: Gtk.AccessibleRole.SPIN_BUTTON
+                accessible_role: Gtk.AccessibleRole.SPIN_BUTTON,
+                uri: uri
             );
 
             if (adjustment != null) {
@@ -130,10 +131,11 @@ namespace Ensembles.GtkShell.Widgets {
          * @param max maximum value
          * @param step increment (tick size)
          */
-        public Knob.with_range (double min, double max, double step) {
+        public Knob.with_range (double min, double max, double step, string? uri = "") {
             Object (
                 name: "knob",
-                accessible_role: Gtk.AccessibleRole.SPIN_BUTTON
+                accessible_role: Gtk.AccessibleRole.SPIN_BUTTON,
+                uri: uri
             );
             this.adjustment.lower = min;
             this.adjustment.upper = max;

@@ -57,6 +57,7 @@ classes = files (
     'Classes/Widgets/ContextMenu.vala',
     'Classes/Widgets/MIDIControllableButton.vala',
     'Classes/Widgets/ToggleButton.vala',
+    'Classes/Widgets/ScrollDial.vala',
 
     'Classes/Widgets/Display/WheelScrollableWidget.vala',
     'Classes/Widgets/Display/VoiceMenuItem.vala',
