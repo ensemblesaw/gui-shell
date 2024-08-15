@@ -26,21 +26,26 @@ namespace Ensembles.GtkShell.Layouts {
 
             knobs = new Widgets.Knob[4];
 
+            var knob_box = new Gtk.Box (HORIZONTAL, 20) {
+                margin_start = 20
+            };
+            attach (knob_box, 0, 0);
+
             var knob_grid = new Gtk.Grid () {
                 hexpand = true,
                 column_homogeneous = true,
                 margin_top = 22,
                 margin_bottom = 18,
-                row_spacing = 2
+                row_spacing = 2,
+                column_spacing = 24
             };
-            attach (knob_grid, 0, 0);
+            knob_box.append (knob_grid);
 
             for (uint8 i = 0; i < 4; i++) {
                 var knob = new Widgets.Knob.with_range (0, 127, 1) {
                     name = "knob-%u".printf (i),
                     width_request = 40,
                     height_request = 40,
-                    halign = Gtk.Align.CENTER,
                     valign = Gtk.Align.START,
                     meter_padding = 2,
                     draw_dot = true
@@ -53,7 +58,7 @@ namespace Ensembles.GtkShell.Layouts {
             }
 
             master_knob = new Widgets.MasterKnob ();
-            knob_grid.attach (master_knob, 4, 0, 1, 2);
+            knob_box.append (master_knob);
 
 
             faders = new Gtk.Scale[10];
@@ -66,7 +71,7 @@ namespace Ensembles.GtkShell.Layouts {
             attach (fader_grid, 0, 1);
 
             for (uint8 i = 0; i < 10; i++) {
-                var fader = new Gtk.Scale.with_range (Gtk.Orientation.VERTICAL, 0, 127, 1) {
+                var fader = new Gtk.Scale.with_range (VERTICAL, 0, 127, 1) {
                     inverted = true,
                     vexpand = true,
                     name = "fader-%u".printf (i),

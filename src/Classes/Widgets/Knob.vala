@@ -96,7 +96,12 @@ namespace Ensembles.GtkShell.Widgets {
 
         private uint radius = 0;
 
+        private int width;
+        private bool update = true;
+
         public signal void value_changed (double value);
+
+        protected signal void width_changed (double width);
 
         /**
          * Creates a new `Knob` widget.
@@ -173,41 +178,31 @@ namespace Ensembles.GtkShell.Widgets {
 
             if (knob_background == null) {
                 knob_background = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) {
-                    halign = Gtk.Align.CENTER,
-                    valign = Gtk.Align.CENTER
+                    hexpand = true,
+                    vexpand = true
                 };
                 knob_background.add_css_class ("knob-background");
                 knob_background.set_parent (this);
             }
-            knob_background.width_request = diameter;
-            knob_background.height_request = diameter;
 
             if (knob_cover == null) {
                 knob_cover = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) {
-                    halign = Gtk.Align.CENTER,
-                    valign = Gtk.Align.CENTER
+                    hexpand = true,
+                    vexpand = true
                 };
                 knob_cover.add_css_class ("knob-cover");
                 knob_cover.set_parent (this);
             }
 
-            knob_cover.width_request = diameter;
-            knob_cover.height_request = diameter;
-
             if (knob_meter == null) {
                 knob_meter = new Gtk.DrawingArea () {
-                    halign = Gtk.Align.CENTER,
-                    valign = Gtk.Align.CENTER,
-                    width_request = diameter,
-                    height_request = diameter
+                    hexpand = true,
+                    vexpand = true,
                 };
                 knob_meter.set_parent (this);
 
                 knob_meter.set_draw_func (draw_meter);
             }
-
-            knob_meter.width_request = diameter;
-            knob_meter.height_request = diameter;
         }
 
         protected void draw_meter (Gtk.DrawingArea meter, Cairo.Context ctx, int width, int height) {
@@ -368,6 +363,19 @@ namespace Ensembles.GtkShell.Widgets {
                     knob_meter.queue_draw ();
                     return false;
                 });
+            });
+
+            add_tick_callback (() => {
+                if (width != get_width ()) {
+                    width = get_width ();
+
+                    height_request = width;
+                    radius = width / 2;
+                    knob_meter.queue_draw ();
+                    width_changed (width);
+                }
+
+                return update;
             });
         }
 

@@ -56,15 +56,15 @@ namespace Ensembles.GtkShell.Layouts {
             menu_box.add_css_class ("adw-listbox");
 
             var info_entry = new Adw.ActionRow () {
-                title = "Info Display",
-                subtitle = "View interactive infomation display",
+                title = _("Info Display"),
+                subtitle = _("View interactive infomation display"),
                 name = "info"
             };
             menu_box.append (info_entry);
 
             var keyboard_entry = new Adw.ActionRow () {
-                title = "Keyboard",
-                subtitle = "Show the keys, style control buttons and registry buttons",
+                title = _("Keyboard"),
+                subtitle = _("Show the keys, style control buttons and registry buttons"),
                 name = "keyboard"
             };
             menu_box.append (keyboard_entry);

@@ -8,9 +8,6 @@ namespace Ensembles.GtkShell.Widgets {
     public class MasterKnob : Knob {
         public MasterKnob () {
             Object (
-                width_request: 64,
-                height_request: 64,
-                halign: Gtk.Align.CENTER,
                 meter_padding: 2,
                 value: 0
             );
@@ -20,6 +17,7 @@ namespace Ensembles.GtkShell.Widgets {
             adjustment.step_increment = 1;
         }
 
+        private Gtk.Box secondary_knob_cover;
         private bool ui_built = false;
 
         construct {
@@ -32,21 +30,36 @@ namespace Ensembles.GtkShell.Widgets {
                     return false;
                 });
             });
+
+            build_events ();
         }
 
         private void build_ui () {
             add_css_class ("opaque");
+            hexpand = true;
+            width_request = 64;
+            margin_bottom = 18;
+            margin_top = 18;
             knob_cover.add_css_class ("master-knob-cover");
             draw_dot = true;
             dot_offset = 0.3;
 
-            var secondary_knob_cover = new Gtk.Box (Gtk.Orientation.VERTICAL, 0) {
+            secondary_knob_cover = new Gtk.Box (VERTICAL, 0) {
                 hexpand = true,
                 vexpand = true
             };
             knob_cover.append (secondary_knob_cover);
 
             secondary_knob_cover.add_css_class ("secondary-knob-cover");
+        }
+
+        private void build_events () {
+            width_changed.connect ((width) => {
+                secondary_knob_cover.margin_start = (int) width / 5;
+                secondary_knob_cover.margin_end = (int) width / 5;
+                secondary_knob_cover.margin_top = (int) width / 5;
+                secondary_knob_cover.margin_bottom = (int) width / 5;
+            });
         }
     }
 }

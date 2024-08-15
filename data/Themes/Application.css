@@ -144,32 +144,31 @@ button.pulse-fill {
 }
 
 .master-knob-cover {
-    margin: 6px;
-    background: @bg_color;
-    box-shadow: 0 0 0 2px #0008, 0 2px 8px #000a, inset 0 1px 1px #fff4, inset 0 -1px 1px #0008, 0 0 32px alpha(@accent_color, 0.6);
-    border: 10px solid @accent_color;
+    background: @accent_color;
+    box-shadow: none;
+    border: 0px solid @accent_color;
     animation: master_knob_idle 2s ease-out infinite;
 }
 
 .secondary-knob-cover {
-    background: radial-gradient(75% 75% at 50% 25%, #6663, #8884);
-    box-shadow: 0 8px 8px #0008, 0 -8px 8px #fff4, 0 0 0 1px #0008, inset 0 1px #fff3;
+    background: radial-gradient(75% 75% at 50% 25%, #6663, #8884), @bg_color;
+    box-shadow: 0 18px 22px #0008, 0 -18px 22px #fff4, 0 0 0 1px #0008, inset 0 1px #fff3;
     border-radius: 100%;
 }
 
 @keyframes master_knob_idle {
     0% {
-        border: 10px solid #222;
+        background: alpha(@accent_color, 0);
         box-shadow: 0 0 0 2px #0008, 0 2px 8px #000a, inset 0 1px 1px #fff4, inset 0 -1px 1px #0008, 0 0 0px alpha(@accent_color, 0);
     }
 
     30% {
-        border: 10px solid @accent_color;
+        background: @accent_color;
         box-shadow: 0 0 0 2px #0008, 0 2px 8px #000a, inset 0 1px 1px #fff4, inset 0 -1px 1px #0008, 0 0 32px alpha(@accent_color, 0.6);
     }
 
     100% {
-        border: 10px solid #222;
+        background: alpha(@accent_color, 0);
         box-shadow: 0 0 0 2px #0008, 0 2px 8px #000a, inset 0 1px 1px #fff4, inset 0 -1px 1px #0008, 0 0 0px alpha(@accent_color, 0);
     }
 }
