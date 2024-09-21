@@ -7,6 +7,7 @@ namespace Ensembles.GtkShell.Widgets {
     public class ToggleButton : MIDIControllableButton {
         private Gtk.Label text_label;
         private Gtk.Box indicator_box;
+        public string label_text { get; set construct; }
         private bool _active = false;
         public bool active {
             get {
@@ -15,21 +16,20 @@ namespace Ensembles.GtkShell.Widgets {
             set {
                 _active = value;
                 if (_active) {
-                    indicator_box.add_css_class ("toggle-indicator-active");
+                    indicator_box.add_css_class ("active");
                 } else {
-                    indicator_box.remove_css_class ("toggle-indicator-active");
+                    indicator_box.remove_css_class ("active");
                 }
             }
         }
 
         public signal void toggled (bool active);
 
-        public ToggleButton (string label, string? uri = "") {
+        public ToggleButton (string? uri = "", string text) {
             Object (
-                uri: uri
+                uri: uri,
+                label_text: text
             );
-
-            text_label = new Gtk.Label (label);
         }
 
         construct {
@@ -38,13 +38,19 @@ namespace Ensembles.GtkShell.Widgets {
         }
 
         private void build_ui () {
-            var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+            var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 2) {
+                vexpand = true
+            };
             set_child (box);
 
+            text_label =new Gtk.Label (label_text) {
+                vexpand = true,
+                valign = Gtk.Align.CENTER
+            };
             box.append (text_label);
 
             indicator_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) {
-                height_request = 4
+                height_request = 6
             };
 
             indicator_box.add_css_class ("toggle-indicator");

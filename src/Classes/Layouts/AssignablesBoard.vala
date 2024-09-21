@@ -27,7 +27,8 @@ namespace Ensembles.GtkShell.Layouts {
             knobs = new Widgets.Knob[4];
 
             var knob_box = new Gtk.Box (HORIZONTAL, 20) {
-                margin_start = 20
+                margin_start = 20,
+                margin_end = 10
             };
             attach (knob_box, 0, 0);
 
@@ -48,7 +49,8 @@ namespace Ensembles.GtkShell.Layouts {
                     height_request = 40,
                     valign = Gtk.Align.START,
                     meter_padding = 2,
-                    draw_dot = true
+                    draw_dot = true,
+                    margin_bottom = 8
                 };
                 knob.add_css_class ("small");
                 knob.add_css_class ("opaque");
@@ -75,6 +77,7 @@ namespace Ensembles.GtkShell.Layouts {
                     inverted = true,
                     vexpand = true,
                     name = "fader-%u".printf (i),
+                    margin_bottom = 8
                 };
 
                 fader_grid.attach (fader, i, 0);

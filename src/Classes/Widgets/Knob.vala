@@ -112,7 +112,7 @@ namespace Ensembles.GtkShell.Widgets {
         public Knob (Gtk.Adjustment? adjustment = null, string? uri = "") {
             Object (
                 name: "knob",
-                accessible_role: Gtk.AccessibleRole.SPIN_BUTTON,
+                accessible_role: Gtk.AccessibleRole.METER,
                 uri: uri
             );
 
