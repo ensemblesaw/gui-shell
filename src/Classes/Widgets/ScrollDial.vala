@@ -94,7 +94,7 @@ namespace Ensembles.GtkShell.Widgets {
             }
 
             if (dial_socket_graphic == null) {
-                socket_radius = (int) (radius * 0.25);
+                socket_radius = (int) (radius * 0.22);
                 dial_socket_graphic = new Gtk.Box (VERTICAL, 0) {
                     width_request = socket_radius << 1,
                     height_request = socket_radius << 1
@@ -145,7 +145,9 @@ namespace Ensembles.GtkShell.Widgets {
 
                     height_request = width;
                     radius = width / 2;
-                    socket_radius = (int) (radius * 0.25);
+                    socket_radius = (int) (radius * 0.22);
+                    dial_socket_graphic.width_request = socket_radius << 1;
+                    dial_socket_graphic.height_request = socket_radius << 1;
                     dial_meter.queue_draw ();
                     width_changed (width);
                 }

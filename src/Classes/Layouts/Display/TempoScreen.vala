@@ -12,26 +12,31 @@ namespace Ensembles.GtkShell.Layouts.Display {
         public signal void decrease_tempo ();
         public signal void reset ();
 
-        public TempoScreen () {
-            Object (
-                width_request: 200,
-                height_request: 200,
-                margin_top: 64,
-                can_target: false,
-                halign: Gtk.Align.CENTER,
-                valign: Gtk.Align.CENTER
-            );
-        }
+        private int width = 0;
+        private bool update = true;
 
         construct {
             build_ui ();
             build_events ();
         }
 
+        ~TempoScreen () {
+            update = false;
+        }
+
         private void build_ui () {
+            width_request = 400;
+            height_request = 200;
+            margin_top = 64;
+            can_target = false;
+            valign = Gtk.Align.CENTER;
+            hexpand = true;
             add_css_class ("tempo-screen");
 
-            var upper_region = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
+            var upper_region = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8) {
+                halign = Gtk.Align.CENTER,
+                hexpand = true
+            };
             attach (upper_region, 0, 0);
 
             decrease_tempo_button = new Gtk.Button.with_label ("−"); // UTF-8 subtract symbol
@@ -74,6 +79,16 @@ namespace Ensembles.GtkShell.Layouts.Display {
         }
 
         private void build_events () {
+            add_tick_callback ((widget, frame_clock) => {
+                if (width != get_width ()) {
+                    width = get_width ();
+
+                    margin_top = width / 20;
+                }
+
+                return update;
+            });
+
             close_button.clicked.connect (() => {
                 close ();
             });
