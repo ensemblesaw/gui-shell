@@ -67,10 +67,10 @@ namespace Ensembles.GtkShell.Layouts {
             attach (split_button, 2, 3);
 
             one_touch_button = new Gtk.Button.with_label (_("Auto Voice"));
-            attach (one_touch_button, 2, 4, 1, 2);
+            attach (one_touch_button, 0, 4, 1, 2);
 
             style_auto_sync_button = new Widgets.MIDIControllableButton.with_label ("", _("Sync Rhythm"));
-            attach (style_auto_sync_button, 2, 6, 1, 2);
+            attach (style_auto_sync_button, 0, 6, 1, 2);
 
             reverb_button = new Widgets.ToggleButton ("", _("Reverb"));
             attach (reverb_button, 1, 0);
@@ -85,28 +85,28 @@ namespace Ensembles.GtkShell.Layouts {
             attach (chorus_spin_button, 1, 3);
 
             transpose_button = new Widgets.ToggleButton ("", _("Transpose"));
-            attach (transpose_button, 0, 4);
+            attach (transpose_button, 1, 4);
 
             transpose_spin_button = new Gtk.SpinButton.with_range (-11, 11, 1);
-            attach (transpose_spin_button, 0, 5);
+            attach (transpose_spin_button, 1, 5);
 
             octave_button = new Widgets.ToggleButton ("", _("Octave"));
-            attach (octave_button, 0, 6);
+            attach (octave_button, 1, 6);
 
             octave_spin_button = new Gtk.SpinButton.with_range (-2, 2, 1);
-            attach (octave_spin_button, 0, 7);
+            attach (octave_spin_button, 1, 7);
 
             arpeggiator_button = new Widgets.ToggleButton ("", _("Arpeggiator"));
-            attach (arpeggiator_button, 1, 4);
+            attach (arpeggiator_button, 2, 4);
 
             arpeggiator_spin_button = new Gtk.SpinButton.with_range (1, 10, 1);
-            attach (arpeggiator_spin_button, 1, 5);
+            attach (arpeggiator_spin_button, 2, 5);
 
             harmonizer_button = new Widgets.ToggleButton ("", _("Haromonizer"));
-            attach (harmonizer_button, 1, 6);
+            attach (harmonizer_button, 2, 6);
 
             harmonizer_spin_button = new Gtk.SpinButton.with_range (1, 9, 1);
-            attach (harmonizer_spin_button, 1, 7);
+            attach (harmonizer_spin_button, 2, 7);
         }
     }
 }
