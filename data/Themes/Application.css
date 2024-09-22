@@ -358,6 +358,16 @@ stack.dimmed {
     transition: all 0.1s linear;
 }
 
+.sampling-pad {
+	background: #666;
+	outline: 0;
+}
+
+.sampling-pad:active, .sampling-pad.active {
+	background: @accent_color;
+	box-shadow: 0 0 24px alpha(@accent_color, 0.5);
+}
+
 .display {
     background: #000;
     border-radius: 12px;
