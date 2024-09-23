@@ -53,15 +53,36 @@ namespace Ensembles.GtkShell {
                 );
             }
 
-            gtk_settings.gtk_application_prefer_dark_theme = (
-                granite_settings.prefers_color_scheme == Granite.Settings.ColorScheme.DARK
-            );
+            var app_settings = Services.di_container.obtain (Services.st_settings);
+
+            Theme.set_theme (app_settings, gtk_settings, granite_settings);
+            app_settings.changed.connect (() => {
+                Theme.set_theme (app_settings, gtk_settings, granite_settings);
+            });
 
             granite_settings.notify["prefers-color-scheme"].connect (() => {
-                gtk_settings.gtk_application_prefer_dark_theme = (
-                    granite_settings.prefers_color_scheme == Granite.Settings.ColorScheme.DARK
-                );
+                if (app_settings.get_string ("app-theme") == "system") {
+                    gtk_settings.gtk_application_prefer_dark_theme = (
+                        granite_settings.prefers_color_scheme == Granite.Settings.ColorScheme.DARK
+                    );
+                }
             });
+        }
+
+        private static void set_theme (Settings? app_settings, Gtk.Settings? gtk_settings, Granite.Settings? granite_settings) {
+            switch (app_settings.get_string ("app-theme")) {
+                case "dark":
+                    gtk_settings.gtk_application_prefer_dark_theme = true;
+                    break;
+                case "light":
+                    gtk_settings.gtk_application_prefer_dark_theme = false;
+                    break;
+                default:
+                    gtk_settings.gtk_application_prefer_dark_theme = (
+                        granite_settings.prefers_color_scheme == Granite.Settings.ColorScheme.DARK
+                    );
+                    break;
+            }
         }
     }
 }

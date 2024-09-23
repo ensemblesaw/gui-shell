@@ -76,7 +76,7 @@ namespace Ensembles.GtkShell.Layouts {
             Cairo.TextExtents x_extents;
             ctx.text_extents (x_label, out x_extents);
 
-            ctx.set_source_rgba (1, 1, 1, 0.25);
+            ctx.set_source_rgb (0.5, 0.5, 0.5);
             ctx.move_to (12, (height >> 1) + (x_extents.width / 2.0));
 
             ctx.rotate (-Math.PI_2);
@@ -86,7 +86,7 @@ namespace Ensembles.GtkShell.Layouts {
             Cairo.TextExtents y_extents;
             ctx.text_extents (y_label, out y_extents);
 
-            ctx.set_source_rgba (1, 1, 1, 0.25);
+            ctx.set_source_rgb (0.5, 0.5, 0.5);
             ctx.move_to ((width >> 1) - (y_extents.width / 2.0), height - 6);
 
 

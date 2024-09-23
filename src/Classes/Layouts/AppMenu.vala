@@ -13,6 +13,7 @@ namespace Ensembles.GtkShell {
         public unowned ArrangerWorkstation.IAWCore aw_core { private get; construct; }
         public unowned Settings settings { private get; construct; }
 
+        private Gtk.Box theme_buttons;
         private Gtk.ToggleButton audio_input_mic;
         private Gtk.ToggleButton audio_input_system;
         private Gtk.ToggleButton audio_input_both;
@@ -33,6 +34,25 @@ namespace Ensembles.GtkShell {
             // Create the main box to house all of it
             var menu_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             set_child (menu_box);
+
+            theme_buttons = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) {
+                homogeneous = true,
+                margin_bottom = 6,
+                margin_top = 12
+            };
+            menu_box.append (theme_buttons);
+            var dark_button = add_theme_button ("dark");
+            dark_button.tooltip_text = _("Dark Mode");
+
+            var light_button = add_theme_button ("light");
+            light_button.tooltip_text = _("Light Mode");
+            light_button.group = dark_button;
+
+            var system_button = add_theme_button ("system");
+            system_button.tooltip_text = _("Follow System Style");
+            system_button.group = dark_button;
+
+
 
             // Audio input source selection box /////////////////////////////////////////////
             var audio_input_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
@@ -188,5 +208,28 @@ namespace Ensembles.GtkShell {
                 }
             }
         }
+
+        private Gtk.CheckButton add_theme_button (string theme) {
+            var button = new Gtk.CheckButton () {
+                halign = Gtk.Align.CENTER,
+                name = theme
+            };
+
+            button.get_style_context ().add_class (Granite.STYLE_CLASS_COLOR_BUTTON);
+            button.get_style_context ().add_class (theme);
+
+            button.active = settings.get_string ("app-theme") == button.name;
+
+            button.toggled.connect ((b) => {
+                if (b.active) {
+                    settings.set_string ("app-theme", b.name);
+                }
+            });
+
+            theme_buttons.append (button);
+            return button;
+        }
+
+
     }
 }

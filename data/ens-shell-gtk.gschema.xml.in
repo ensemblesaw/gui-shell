@@ -38,6 +38,10 @@
             <summary>Window maximized</summary>
             <description>If window should be maximized</description>
         </key>
+        <key name="app-theme" type="s">
+            <default>"dark"</default>
+            <summary>App Theme</summary>
+        </key>
         <key name="display-theme" type="s">
             <default>"Default"</default>
             <summary>Display Unit Theme</summary>

@@ -119,7 +119,6 @@ namespace Ensembles.GtkShell.Widgets {
                 };
                 fixed.set_parent (this);
                 fixed.put (dial_socket_graphic, 60, 50);
-                rotate_dial (0);
             }
         }
 
@@ -152,7 +151,7 @@ namespace Ensembles.GtkShell.Widgets {
             });
 
             add_tick_callback (() => {
-                if (width != get_width ()) {
+                if (visible && width != get_width ()) {
                     width = get_width ();
 
                     height_request = width;
@@ -161,6 +160,7 @@ namespace Ensembles.GtkShell.Widgets {
                     dial_socket_graphic.width_request = socket_radius << 1;
                     dial_socket_graphic.height_request = socket_radius << 1;
                     width_changed (width);
+                    rotate_dial (value);
                 }
 
                 dial_meter.queue_draw ();
@@ -171,6 +171,10 @@ namespace Ensembles.GtkShell.Widgets {
 
 
         protected void draw_meter (Gtk.DrawingArea meter, Cairo.Context ctx, int width, int height) {
+            if (!visible) {
+                return;
+            }
+
             bool has_audio = false;
 
             if (buffer_l != null && buffer_r != null && buffer_len > 0) {
@@ -187,7 +191,7 @@ namespace Ensembles.GtkShell.Widgets {
                         sum += buffer_l[i * group_size + j];
                     }
 
-                    averages[i] = 5 * sum / group_size;
+                    averages[i] = 4 * sum / group_size;
                     if (averages[i] > 0.1) {
                         has_audio = true;
                     }
@@ -227,7 +231,7 @@ namespace Ensembles.GtkShell.Widgets {
                         sum += buffer_r[i * group_size + j];
                     }
 
-                    averages[i] = 5 * sum / group_size;
+                    averages[i] = 4 * sum / group_size;
                     if (averages[i] > 0.1) {
                         has_audio = true;
                     }
@@ -235,7 +239,7 @@ namespace Ensembles.GtkShell.Widgets {
 
                 for (int i = 0; i < 32; i++) {
                     // Use the calculated average for this group
-                    double avg = averages[32 - i];
+                    double avg = averages[31 - i];
                     ctx.set_source_rgba(0, 0, 0, (1 - (avg < 0 ? -avg : avg)));
 
                     // Start drawing each pie
