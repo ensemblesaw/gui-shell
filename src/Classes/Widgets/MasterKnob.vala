@@ -60,6 +60,15 @@ namespace Ensembles.GtkShell.Widgets {
                 secondary_knob_cover.margin_top = (int) width / 5;
                 secondary_knob_cover.margin_bottom = (int) width / 5;
             });
+
+            Timeout.add_seconds (2, () => {
+                knob_cover.remove_css_class ("master-knob-cover");
+                Idle.add (() => {
+                    knob_cover.add_css_class ("master-knob-cover");
+                    return false;
+                });
+                return true;
+            });
         }
     }
 }

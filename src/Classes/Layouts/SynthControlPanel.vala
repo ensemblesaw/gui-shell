@@ -30,6 +30,7 @@ namespace Ensembles.GtkShell.Layouts {
 
         construct {
             build_ui ();
+            build_events ();
         }
 
         private void build_ui () {
@@ -107,6 +108,16 @@ namespace Ensembles.GtkShell.Layouts {
 
             harmonizer_spin_button = new Gtk.SpinButton.with_range (1, 9, 1);
             attach (harmonizer_spin_button, 2, 7);
+        }
+
+        private void build_events () {
+            aw_core.on_synth_render.connect (animate_audio);
+        }
+
+        public void animate_audio (float* buffer_l, float* buffer_r, int len) {
+            if (scroll_dial != null) {
+                scroll_dial.animate_audio (buffer_l, buffer_r, len);
+            }
         }
     }
 }

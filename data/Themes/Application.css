@@ -194,9 +194,19 @@ button.pulse-fill {
 }
 
 .scroll-dial {
-    background: @accent_color;
+    background: black;
     border-radius: 50%;
-    box-shadow: 0 4px 8px shade(@bg_color, 0.3), 0 -4px 8px shade(@bg_color, 1.6);
+    box-shadow: 0 4px 8px shade(@bg_color, 0.3), 0 -4px 8px shade(@bg_color, 1.6), inset 0 0 4px 2px black;
+    transition: all 0.1s linear;
+}
+
+.scroll-dial.has-audio {
+    background: linear-gradient(90deg, @accent_color, @accent_color_complimentary);
+}
+
+.dial-meter {
+	border-radius: 50%;
+    filter: blur(2px);
 }
 
 .dial-light-graphic {
@@ -213,7 +223,7 @@ button.pulse-fill {
     background-color: @bg_color;
     background: radial-gradient(alpha(@bg_color, 0), @bg_color), conic-gradient(shade(@bg_color, 0.9), shade(@bg_color, 1.2), shade(@bg_color, 0.9), shade(@bg_color, 1.9) 100deg, shade(@bg_color, 1.3), shade(@bg_color, 1.3), shade(@bg_color, 0.9), shade(@bg_color, 1.75) 280deg, shade(@bg_color, 0.9));
     border: 1px solid #000;
-    box-shadow: inset 0 1px 0 #fff6, inset 0 -1px 0 #fff2, inset 1px 0 alpha(@accent_color_complimentary, 0.4);
+    box-shadow: inset 0 1px 0 #fff6, inset 0 -1px 0 #fff2, 0 1px 0 #fff2;
     border-radius: 50%;
     margin: 8px;
 }

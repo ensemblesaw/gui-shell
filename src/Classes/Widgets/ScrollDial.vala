@@ -34,6 +34,12 @@ namespace Ensembles.GtkShell.Widgets {
         private int socket_radius = 10;
         public double value = 0;
 
+        private float* buffer_l;
+        private float* buffer_r;
+        private int buffer_len = 0;
+        private float[] averages;
+        private bool had_audio = false;
+
         public ScrollDial (string? uri = "") {
             Object (
                 name: "dial",
@@ -48,6 +54,12 @@ namespace Ensembles.GtkShell.Widgets {
                 build_ui ();
             });
             build_events ();
+        }
+
+        public void animate_audio (float* buffer_l, float* buffer_r, int len) {
+            this.buffer_l = buffer_l;
+            this.buffer_r = buffer_r;
+            buffer_len = len;
         }
 
         private void build_layout () {
@@ -148,17 +160,115 @@ namespace Ensembles.GtkShell.Widgets {
                     socket_radius = (int) (radius * 0.22);
                     dial_socket_graphic.width_request = socket_radius << 1;
                     dial_socket_graphic.height_request = socket_radius << 1;
-                    dial_meter.queue_draw ();
                     width_changed (width);
                 }
+
+                dial_meter.queue_draw ();
 
                 return update;
             });
         }
 
-        protected void draw_meter (Gtk.DrawingArea meter, Cairo.Context ctx, int width, int height) {
 
+        protected void draw_meter (Gtk.DrawingArea meter, Cairo.Context ctx, int width, int height) {
+            bool has_audio = false;
+
+            if (buffer_l != null && buffer_r != null && buffer_len > 0) {
+                int total_averages = 32;
+                int total_elements = total_averages * (buffer_len / total_averages);  // Use only the first part divisible by 32
+                int group_size = total_elements / total_averages;  // Each group will have equal elements (ignoring the last ones)
+                uint _radius = radius - 2;
+
+                // Calculate averages for 32 groups from buffer_l
+                averages = new float[total_averages];
+                for (int i = 0; i < total_averages; i++) {
+                    float sum = 0.0f;
+                    for (int j = 0; j < group_size; j++) {
+                        sum += buffer_l[i * group_size + j];
+                    }
+
+                    averages[i] = 5 * sum / group_size;
+                    if (averages[i] > 0.1) {
+                        has_audio = true;
+                    }
+                }
+
+                // Now, draw the meter using the averages instead of individual buffer values
+                double angle_step = Math.PI / total_averages;  // Angle between each pie for 32 groups
+
+                for (int i = 0; i < 32; i++) {
+                    // Use the calculated average for this group
+                    double avg = averages[i];
+
+
+                    // Start drawing each pie
+                    ctx.move_to((width >> 1) + 0.25, (height >> 1) + 0.25);  // Move to center of the circle
+
+                    // Draw the two lines that form the wedge
+                    ctx.arc((width >> 1) + 0.25, (height >> 1) + 0.25, _radius, i * angle_step + Math.PI_2, (i + 1) * angle_step + Math.PI_2);
+
+                    // Close the path to create the wedge shape
+                    ctx.close_path();
+
+                    // Fill the pie segment
+                    ctx.set_source_rgba(0, 0, 0, (1 - (avg < 0 ? -avg : avg)));
+                    ctx.fill ();
+
+                    ctx.set_source_rgba(0, 0, 0, (1 - (avg < 0 ? -avg : avg)));
+                    ctx.set_line_width (1);
+                    ctx.stroke ();
+                }
+
+                // Calculate averages for 32 groups from buffer_r
+                averages = new float[total_averages];
+                for (int i = 0; i < total_averages; i++) {
+                    float sum = 0.0f;
+                    for (int j = 0; j < group_size; j++) {
+                        sum += buffer_r[i * group_size + j];
+                    }
+
+                    averages[i] = 5 * sum / group_size;
+                    if (averages[i] > 0.1) {
+                        has_audio = true;
+                    }
+                }
+
+                for (int i = 0; i < 32; i++) {
+                    // Use the calculated average for this group
+                    double avg = averages[32 - i];
+                    ctx.set_source_rgba(0, 0, 0, (1 - (avg < 0 ? -avg : avg)));
+
+                    // Start drawing each pie
+                    ctx.move_to((width >> 1) + 0.25, (height >> 1) + 0.25);  // Move to center of the circle
+
+                    // Draw the two lines that form the wedge
+                    ctx.arc((width >> 1) + 0.25, (height >> 1) + 0.25, _radius, i * angle_step - Math.PI_2, (i + 1) * angle_step - Math.PI_2);
+
+                    // Close the path to create the wedge shape
+                    ctx.close_path();
+
+                    // Fill the pie segment
+                    ctx.fill ();
+                }
+            } else {
+                // Draw a full black circle if buffer data is not available
+                ctx.set_source_rgb(0, 0, 0);
+                ctx.arc((width >> 1) + 0.5, (height >> 1) + 0.5, radius, 0, 2 * Math.PI);  // Draw the circle path
+                ctx.fill();
+                has_audio = false;
+            }
+
+            if (has_audio != had_audio) {
+                had_audio = has_audio;
+
+                if (has_audio) {
+                    add_css_class ("has-audio");
+                } else {
+                    remove_css_class ("has-audio");
+                }
+            }
         }
+
 
         private void rotate_dial (double value) {
             uint _radius = radius >> 1;

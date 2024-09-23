@@ -77,7 +77,8 @@ libens_shell_gtk = static_library (
     sources,
     config_vala,
     dependencies: dependencies,
-    install: true
+    install: true,
+    install_dir: [true, true, true]
 )
 
 ens_shell_gtk_dep = declare_dependency (
