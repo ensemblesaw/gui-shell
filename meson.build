@@ -59,6 +59,7 @@ dependencies = [
     'docs=disabled', 'tests_cpp=disabled',
     ], required: false),
     dependency ('portmidi', required: false),
+    dependency ('kissfft-float', required: true),
     dependency ('libpipewire-0.3', required: false),
     dependency ('ens-aw-core-0', fallback: ['ens-aw-core', 'ens_aw_core_dep']),
     dependency ('ens-shell-cli-0', fallback: ['ens-shell-cli', 'ens_shell_cli_dep']),
