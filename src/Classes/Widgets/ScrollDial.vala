@@ -64,6 +64,9 @@ namespace Ensembles.GtkShell.Widgets {
 
             bars_l = new float[nbars];
             previous_bars_l = new float[nbars];
+            bars_r = new float[nbars];
+            previous_bars_r = new float[nbars];
+
             // Convert desired frequency range to FFT bin indices
             low_bin = (int)(100 * nfft / 44100);
             high_bin = (int)(5800 * nfft / 44100);
@@ -133,6 +136,57 @@ namespace Ensembles.GtkShell.Widgets {
                         bars_l[i] = 0.0f;  // Replace NaN with 0
                     } else {
                         bars_l[i] /= 20;
+                    }
+                }
+
+                // Fill in the input buffer with the audio samples
+                for (int i = 0; i < nfft; i++) {
+                    c_in[i].r = (i < len) ? buffer_r[i] : 0.0f;  // Zero-padding if buffer is smaller than nfft
+                    c_in[i].i = 0.0f;  // Imaginary part is zero for real input
+                }
+
+                KissFFT.transform (cfg, c_in, c_out);
+
+                // Fill the bars by grouping the FFT bins based on the logarithmic scale
+                for (int i = 0; i < nbars; i++) {
+                    float sum = 0.0f;
+
+                    // Sum the magnitudes of the bins in this bar's frequency range
+                    int start_bin = low_bin + i * bins_per_bar;
+                    int end_bin = start_bin + bins_per_bar;
+
+                    for (int j = start_bin; j < end_bin && j <= high_bin; j++) {
+                        float magnitude = (c_out[j].r * c_out[j].r) + (c_out[j].i * c_out[j].i);
+                        if (magnitude < 0) magnitude = 0;  // Ensure no negative magnitude
+                        sum += magnitude;  // Magnitude of complex number
+                    }
+
+                    // Average and store in bars, avoiding division by zero
+                    int band_size = end_bin - start_bin;
+                    if (band_size > 0) {
+                        bars_r[i] = sum / band_size;
+                    } else {
+                        bars_r[i] = 0.0f;  // Avoid division by zero
+                    }
+
+                    // Apply decay logic: if the new value is lower, apply decay
+                    if (bars_r[i] < previous_bars_r[i]) {
+                        bars_r[i] = previous_bars_r[i] * (1.0f - decay_factor);
+                    }
+
+                    //  Clamp small values to zero to avoid persistent small bars
+                    if (bars_r[i] < 0.001) {
+                        bars_r[i] = 0.0f;
+                    }
+
+                    // Update the previous_bars array with the current value
+                    previous_bars_r[i] = bars_r[i];
+
+                    // Check for NaN values and filter them out
+                    if (bars_r[i].is_nan ()) {
+                        bars_r[i] = 0.0f;  // Replace NaN with 0
+                    } else {
+                        bars_r[i] /= 20;
                     }
                 }
             }
@@ -281,30 +335,26 @@ namespace Ensembles.GtkShell.Widgets {
                     ctx.stroke ();
                 }
 
-                //  for (int i = 0; i < 32; i++) {
-                //      // Use the calculated average for this group
-                //      double avg = averages[31 - i];
-                //      ctx.set_source_rgba(0, 0, 0, (1 - (avg < 0 ? -avg : avg)));
+                for (int i = 0; i < 32; i++) {
+                    if (bars_l[i] > 0.1) {
+                        has_audio = true;
+                    }
+                    // Use the calculated average for this group
+                    double avg = bars_r[31 - i];
+                    ctx.set_source_rgba(0, 0, 0, (1 - (avg < 0 ? -avg : avg)));
 
-                //      // Start drawing each pie
-                //      ctx.move_to((width >> 1) + 0.25, (height >> 1) + 0.25);  // Move to center of the circle
+                    // Start drawing each pie
+                    ctx.move_to((width >> 1) + 0.25, (height >> 1) + 0.25);  // Move to center of the circle
 
-                //      // Draw the two lines that form the wedge
-                //      ctx.arc((width >> 1) + 0.25, (height >> 1) + 0.25, _radius, i * angle_step - Math.PI_2, (i + 1) * angle_step - Math.PI_2);
+                    // Draw the two lines that form the wedge
+                    ctx.arc((width >> 1) + 0.25, (height >> 1) + 0.25, _radius, i * angle_step - Math.PI_2, (i + 1) * angle_step - Math.PI_2);
 
-                //      // Close the path to create the wedge shape
-                //      ctx.close_path();
+                    // Close the path to create the wedge shape
+                    ctx.close_path();
 
-                //      // Fill the pie segment
-                //      ctx.fill ();
-                //  }
-            //  } else {
-            //      // Draw a full black circle if buffer data is not available
-            //      ctx.set_source_rgb(0, 0, 0);
-            //      ctx.arc((width >> 1) + 0.5, (height >> 1) + 0.5, radius, 0, 2 * Math.PI);  // Draw the circle path
-            //      ctx.fill();
-            //      has_audio = false;
-            //  }
+                    // Fill the pie segment
+                    ctx.fill ();
+                }
 
             if (has_audio != had_audio) {
                 had_audio = has_audio;
