@@ -26,8 +26,6 @@ namespace Ensembles.GtkShell.Widgets {
         private double previous_deg;
         private double delta_deg;
 
-        protected signal void width_changed (double width);
-
         private uint radius = 0;
         private int socket_radius = 10;
         public double value = 0;
@@ -49,6 +47,9 @@ namespace Ensembles.GtkShell.Widgets {
         private Gtk.GestureRotate touch_rotation_gesture;
         private Gtk.GestureDrag drag_gesture;
         private Gtk.EventControllerScroll wheel_gesture;
+
+        protected signal void width_changed (double width);
+        public signal void scroll (int amount);
 
         public ScrollDial (string? uri = "") {
             Object (
@@ -290,6 +291,7 @@ namespace Ensembles.GtkShell.Widgets {
                     dial_light_graphics.remove_css_class ("speeding");
                 }
 
+                scroll (speeding ? ((int) delta_deg) << 1 : (int) delta_deg);
                 rotate_dial (value += delta_deg);
             });
 
@@ -315,8 +317,8 @@ namespace Ensembles.GtkShell.Widgets {
                     dial_light_graphics.remove_css_class ("speeding");
                 }
 
+                scroll (speeding ? ((int) delta_deg) << 1 : (int) delta_deg);
                 rotate_dial (value += delta_deg);
-
                 return true;
             });
 
@@ -345,7 +347,12 @@ namespace Ensembles.GtkShell.Widgets {
                     dial_light_graphics.remove_css_class ("speeding");
                 }
 
+                scroll (speeding ? ((int) delta_deg) << 1 : (int) delta_deg);
                 rotate_dial (value += delta_deg);
+            });
+
+            touch_rotation_gesture.end.connect (() => {
+                speeding = false;
             });
 
             add_tick_callback (() => {
