@@ -8,7 +8,10 @@ namespace Ensembles.GtkShell.Widgets {
       * A `ScrollDial` is a rotary control used to scroll inside `WheelScrollableWidget`s.
       */
     public class ScrollDial : Gtk.Widget, Gtk.Accessible, MIDIControllable {
-        // Knob UI
+        private const uint16 FFT_SIZE = 256;
+        private const uint8 SPECTRUM_RESOLUTION = 32;
+        private const float SPECTRUM_DECAY = 0.05f;
+
         private Gtk.BinLayout bin_layout;
         protected Gtk.Box dial_light_graphics;
         protected Gtk.Box dial_socket_graphic;
@@ -17,30 +20,24 @@ namespace Ensembles.GtkShell.Widgets {
         protected Gtk.Box dial_background;
         private Gtk.Fixed fixed;
 
-        private Gtk.GestureRotate touch_rotation_gesture;
-        private Gtk.GestureDrag drag_gesture;
-        private Gtk.EventControllerScroll wheel_gesture;
-
         private int width;
         private bool update = true;
         private double current_deg;
         private double previous_deg;
-
-        private float scroll_location;
+        private double delta_deg;
 
         protected signal void width_changed (double width);
 
         private uint radius = 0;
         private int socket_radius = 10;
         public double value = 0;
+        private bool speeding = false;
 
         private KissFFT.Cfg cfg;
         private KissFFT.Cpx[] c_in;
         private KissFFT.Cpx[] c_out;
-        private const float decay_factor = 0.05f;
         private bool had_audio = false;
-        private const int nfft = 256;
-        private const int nbars = 32;
+
         private float[] bars_l;
         private float[] previous_bars_l;
         private float[] bars_r;
@@ -48,6 +45,10 @@ namespace Ensembles.GtkShell.Widgets {
         private int low_bin;
         private int high_bin;
         private int bins_per_bar;
+
+        private Gtk.GestureRotate touch_rotation_gesture;
+        private Gtk.GestureDrag drag_gesture;
+        private Gtk.EventControllerScroll wheel_gesture;
 
         public ScrollDial (string? uri = "") {
             Object (
@@ -58,26 +59,7 @@ namespace Ensembles.GtkShell.Widgets {
         }
 
         construct {
-            cfg = KissFFT.alloc (nfft, false, null, null);
-            c_in = new KissFFT.Cpx[nfft];
-            c_out = new KissFFT.Cpx[nfft];
-
-            bars_l = new float[nbars];
-            previous_bars_l = new float[nbars];
-            bars_r = new float[nbars];
-            previous_bars_r = new float[nbars];
-
-            // Convert desired frequency range to FFT bin indices
-            low_bin = (int)(100 * nfft / 44100);
-            high_bin = (int)(5800 * nfft / 44100);
-
-            // Ensure bin indices are within valid bounds
-            low_bin = low_bin > 0 ? low_bin : 0;
-            high_bin = high_bin < nfft >> 1 ? high_bin : nfft >> 1;
-
-            // Compute the number of FFT bins per bar
-            bins_per_bar = (high_bin - low_bin) / nbars;
-
+            setup_fft ();
             build_layout ();
             realize.connect (() => {
                 build_ui ();
@@ -85,11 +67,33 @@ namespace Ensembles.GtkShell.Widgets {
             build_events ();
         }
 
+        private void setup_fft () {
+            cfg = KissFFT.alloc (FFT_SIZE, false, null, null);
+            c_in = new KissFFT.Cpx[FFT_SIZE];
+            c_out = new KissFFT.Cpx[FFT_SIZE];
+
+            bars_l = new float[SPECTRUM_RESOLUTION];
+            previous_bars_l = new float[SPECTRUM_RESOLUTION];
+            bars_r = new float[SPECTRUM_RESOLUTION];
+            previous_bars_r = new float[SPECTRUM_RESOLUTION];
+
+            // Convert desired frequency range to FFT bin indices
+            low_bin = (int)(100 * FFT_SIZE / 44100);
+            high_bin = (int)(5800 * FFT_SIZE / 44100);
+
+            // Ensure bin indices are within valid bounds
+            low_bin = low_bin > 0 ? low_bin : 0;
+            high_bin = high_bin < FFT_SIZE >> 1 ? high_bin : FFT_SIZE >> 1;
+
+            // Compute the number of FFT bins per bar
+            bins_per_bar = (high_bin - low_bin) / SPECTRUM_RESOLUTION;
+        }
+
         public void animate_audio (float* buffer_l, float* buffer_r, int len) {
 
             if (buffer_l != null && buffer_r != null && len > 0) {
                 // Fill in the input buffer with the audio samples
-                for (int i = 0; i < nfft; i++) {
+                for (uint16 i = 0; i < FFT_SIZE; i++) {
                     c_in[i].r = (i < len) ? buffer_l[i] : 0.0f;  // Zero-padding if buffer is smaller than nfft
                     c_in[i].i = 0.0f;  // Imaginary part is zero for real input
                 }
@@ -97,7 +101,7 @@ namespace Ensembles.GtkShell.Widgets {
                 KissFFT.transform (cfg, c_in, c_out);
 
                 // Fill the bars by grouping the FFT bins based on the logarithmic scale
-                for (int i = 0; i < nbars; i++) {
+                for (uint8 i = 0; i < SPECTRUM_RESOLUTION; i++) {
                     float sum = 0.0f;
 
                     // Sum the magnitudes of the bins in this bar's frequency range
@@ -120,7 +124,7 @@ namespace Ensembles.GtkShell.Widgets {
 
                     // Apply decay logic: if the new value is lower, apply decay
                     if (bars_l[i] < previous_bars_l[i]) {
-                        bars_l[i] = previous_bars_l[i] * (1.0f - decay_factor);
+                        bars_l[i] = previous_bars_l[i] * (1.0f - SPECTRUM_DECAY);
                     }
 
                     //  Clamp small values to zero to avoid persistent small bars
@@ -140,7 +144,7 @@ namespace Ensembles.GtkShell.Widgets {
                 }
 
                 // Fill in the input buffer with the audio samples
-                for (int i = 0; i < nfft; i++) {
+                for (uint16 i = 0; i < FFT_SIZE; i++) {
                     c_in[i].r = (i < len) ? buffer_r[i] : 0.0f;  // Zero-padding if buffer is smaller than nfft
                     c_in[i].i = 0.0f;  // Imaginary part is zero for real input
                 }
@@ -148,7 +152,7 @@ namespace Ensembles.GtkShell.Widgets {
                 KissFFT.transform (cfg, c_in, c_out);
 
                 // Fill the bars by grouping the FFT bins based on the logarithmic scale
-                for (int i = 0; i < nbars; i++) {
+                for (uint8 i = 0; i < SPECTRUM_RESOLUTION; i++) {
                     float sum = 0.0f;
 
                     // Sum the magnitudes of the bins in this bar's frequency range
@@ -171,7 +175,7 @@ namespace Ensembles.GtkShell.Widgets {
 
                     // Apply decay logic: if the new value is lower, apply decay
                     if (bars_r[i] < previous_bars_r[i]) {
-                        bars_r[i] = previous_bars_r[i] * (1.0f - decay_factor);
+                        bars_r[i] = previous_bars_r[i] * (1.0f - SPECTRUM_DECAY);
                     }
 
                     //  Clamp small values to zero to avoid persistent small bars
@@ -273,9 +277,73 @@ namespace Ensembles.GtkShell.Widgets {
 
                 current_deg = Math.atan2 (relative_x - radius, relative_y - radius) * (180 / Math.PI);
 
-                var delta_deg = previous_deg - current_deg;
+                delta_deg = previous_deg - current_deg;
 
                 previous_deg = current_deg;
+
+                if (delta_deg > 20 || delta_deg < -20) {
+                    if (!speeding) {
+                        dial_light_graphics.add_css_class ("speeding");
+                    }
+                } else if (delta_deg < 1 && delta_deg > -1) {
+                    speeding = false;
+                    dial_light_graphics.remove_css_class ("speeding");
+                }
+
+                rotate_dial (value += delta_deg);
+            });
+
+            drag_gesture.drag_end.connect (() => {
+                speeding = false;
+                dial_light_graphics.remove_css_class ("speeding");
+            });
+
+            wheel_gesture = new Gtk.EventControllerScroll (Gtk.EventControllerScrollFlags.VERTICAL);
+            add_controller (wheel_gesture);
+
+            wheel_gesture.scroll.connect ((dx, dy) => {
+                delta_deg = dy * 4;
+
+                previous_deg = current_deg;
+
+                if (delta_deg > 20 || delta_deg < -20) {
+                    if (!speeding) {
+                        dial_light_graphics.add_css_class ("speeding");
+                    }
+                } else if (delta_deg < 1 && delta_deg > -1) {
+                    speeding = false;
+                    dial_light_graphics.remove_css_class ("speeding");
+                }
+
+                rotate_dial (value += delta_deg);
+
+                return true;
+            });
+
+            wheel_gesture.scroll_end.connect (() => {
+                speeding = false;
+                dial_light_graphics.remove_css_class ("speeding");
+            });
+
+            touch_rotation_gesture = new Gtk.GestureRotate ();
+            add_controller (touch_rotation_gesture);
+
+            touch_rotation_gesture.begin.connect (() => {
+                previous_deg = 0;
+            });
+
+            touch_rotation_gesture.angle_changed.connect ((angle, angle_delta) => {
+                current_deg = angle_delta * (180 / Math.PI);
+                delta_deg = current_deg - previous_deg;
+                previous_deg = current_deg;
+                if (delta_deg > 20 || delta_deg < -20) {
+                    if (!speeding) {
+                        dial_light_graphics.add_css_class ("speeding");
+                    }
+                } else if (delta_deg < 1 && delta_deg > -1) {
+                    speeding = false;
+                    dial_light_graphics.remove_css_class ("speeding");
+                }
 
                 rotate_dial (value += delta_deg);
             });
@@ -299,62 +367,38 @@ namespace Ensembles.GtkShell.Widgets {
             });
         }
 
-
         protected void draw_meter (Gtk.DrawingArea meter, Cairo.Context ctx, int width, int height) {
             if (!visible) {
                 return;
             }
 
             bool has_audio = false;
-            double angle_step = Math.PI / nbars;  // Angle between each pie for 32 groups
+            double angle_step = Math.PI / SPECTRUM_RESOLUTION;
 
-
-
-                //      if (sum > 0.1) {
-                //          has_audio = true;
-                //      }
-                uint _radius = radius - 2;
-                for (int i = 0; i < nbars; i++) {
-                    if (bars_l[i] > 0.1) {
-                        has_audio = true;
-                    }
-                    ctx.move_to((width >> 1) + 0.25, (height >> 1) + 0.25);  // Move to center of the circle
-
-                    // Draw the two lines that form the wedge
-                    ctx.arc((width >> 1) + 0.25, (height >> 1) + 0.25, _radius, i * angle_step + Math.PI_2, (i + 1) * angle_step + Math.PI_2);
-
-                    // Close the path to create the wedge shape
-                    ctx.close_path();
-
-                    // Fill the pie segment
-                    ctx.set_source_rgba(0, 0, 0, (1 - (bars_l[i] < 0 ? -bars_l[i] : bars_l[i])));
-                    ctx.fill ();
-
-                    ctx.set_source_rgba(0, 0, 0, (1 - (bars_l[i] < 0 ? -bars_l[i] : bars_l[i])));
-                    ctx.set_line_width (1);
-                    ctx.stroke ();
+            uint _radius = radius - 2;
+            for (int i = 0; i < SPECTRUM_RESOLUTION; i++) {
+                if (bars_l[i] > 0.1) {
+                    has_audio = true;
                 }
 
-                for (int i = 0; i < 32; i++) {
-                    if (bars_l[i] > 0.1) {
-                        has_audio = true;
-                    }
-                    // Use the calculated average for this group
-                    double avg = bars_r[31 - i];
-                    ctx.set_source_rgba(0, 0, 0, (1 - (avg < 0 ? -avg : avg)));
+                ctx.move_to((width >> 1) + 0.25, (height >> 1) + 0.25);
+                ctx.arc((width >> 1) + 0.25, (height >> 1) + 0.25, _radius, i * angle_step + Math.PI_2, (i + 1) * angle_step + Math.PI_2);
+                ctx.close_path();
+                ctx.set_source_rgba(0, 0, 0, (1 - (bars_l[i] < 0 ? -bars_l[i] : bars_l[i])));
+                ctx.fill ();
+            }
 
-                    // Start drawing each pie
-                    ctx.move_to((width >> 1) + 0.25, (height >> 1) + 0.25);  // Move to center of the circle
-
-                    // Draw the two lines that form the wedge
-                    ctx.arc((width >> 1) + 0.25, (height >> 1) + 0.25, _radius, i * angle_step - Math.PI_2, (i + 1) * angle_step - Math.PI_2);
-
-                    // Close the path to create the wedge shape
-                    ctx.close_path();
-
-                    // Fill the pie segment
-                    ctx.fill ();
+            for (int i = 0; i < SPECTRUM_RESOLUTION; i++) {
+                if (bars_l[i] > 0.1) {
+                    has_audio = true;
                 }
+
+                ctx.move_to((width >> 1) + 0.25, (height >> 1) + 0.25);
+                ctx.arc((width >> 1) + 0.25, (height >> 1) + 0.25, _radius, i * angle_step - Math.PI_2, (i + 1) * angle_step - Math.PI_2);
+                ctx.close_path();
+                ctx.set_source_rgba(0, 0, 0, (1 - (bars_r[31 - i] < 0 ? -bars_r[31 - i] : bars_r[31 - i])));
+                ctx.fill ();
+            }
 
             if (has_audio != had_audio) {
                 had_audio = has_audio;

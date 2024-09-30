@@ -339,8 +339,17 @@ namespace Ensembles.GtkShell.Widgets {
                 return true;
             });
 
+            touch_rotation_gesture.begin.connect (() => {
+                previous_deg = 0;
+            });
+
             touch_rotation_gesture.angle_changed.connect ((angle, angle_delta) => {
-                pointing_angle += angle_delta;
+                current_deg = angle_delta * 180 / Math.PI;
+                var delta_deg = current_deg - previous_deg;
+                previous_deg = current_deg;
+                if (delta_deg < 270 && delta_deg > -270) {
+                    pointing_angle += delta_deg;
+                }
 
                 if (pointing_angle < pointing_angle_lower) {
                     pointing_angle = pointing_angle_lower;
