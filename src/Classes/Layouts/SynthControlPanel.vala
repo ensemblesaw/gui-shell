@@ -18,17 +18,17 @@ namespace Ensembles.GtkShell.Layouts {
         private Widgets.ToggleButton layer_button;
         private Widgets.ToggleButton split_button;
         private Widgets.ToggleButton transpose_button;
-        private Gtk.SpinButton transpose_spin_button;
+        private Widgets.MIDIControllableSpinButton transpose_spin_button;
         private Widgets.ToggleButton octave_button;
-        private Gtk.SpinButton octave_spin_button;
+        private Widgets.MIDIControllableSpinButton octave_spin_button;
         private Widgets.ToggleButton reverb_button;
-        private Gtk.SpinButton reverb_spin_button;
+        private Widgets.MIDIControllableSpinButton reverb_spin_button;
         private Widgets.ToggleButton chorus_button;
-        private Gtk.SpinButton chorus_spin_button;
+        private Widgets.MIDIControllableSpinButton chorus_spin_button;
         private Widgets.ToggleButton arpeggiator_button;
-        private Gtk.SpinButton arpeggiator_spin_button;
+        private Widgets.MIDIControllableSpinButton arpeggiator_spin_button;
         private Widgets.ToggleButton harmonizer_button;
-        private Gtk.SpinButton harmonizer_spin_button;
+        private Widgets.MIDIControllableSpinButton harmonizer_spin_button;
 
         // URIs
         public const string UI_URI_SCROLL_DIAL = "gtk.synthcpl.scroll_dial";
@@ -37,11 +37,17 @@ namespace Ensembles.GtkShell.Layouts {
         public const string UI_URI_LAYER_BTN = "gtk.synthcpl.layer_btn";
         public const string UI_URI_SPLIT_BTN = "gtk.synthcpl.split_btn";
         public const string UI_URI_REVERB_BTN = "gtk.synthcpl.reverb_btn";
-        public const string UI_URI_CHORUS_BTN = "gtk.synthcpl.chorus.btn";
+        public const string UI_URI_REVERB_SPIN = "gtk.synthcpl.reverb_spin";
+        public const string UI_URI_CHORUS_BTN = "gtk.synthcpl.chorus_btn";
+        public const string UI_URI_CHORUS_SPIN = "gtk.synthcpl.chorus_spin";
         public const string UI_URI_TRANSPOSE_BTN = "gtk.synthcpl.transpose_btn";
+        public const string UI_URI_TRANSPOSE_SPIN = "gtk.synthcpl.transpose_spin";
         public const string UI_URI_OCTAVE_BTN = "gtk.synthcpl.octave_btn";
+        public const string UI_URI_OCTAVE_SPIN = "gtk.synthcpl.octave_spin";
         public const string UI_URI_ARPEGGIATOR_BTN = "gtk.synthcpl.arpp_btn";
+        public const string UI_URI_ARPEGGIATOR_SPIN= "gtk.synthcpl.arpp_spin";
         public const string UI_URI_HARMONIZER_BTN = "gtk.synthcpl.harmo_btn";
+        public const string UI_URI_HARMONIZER_SPIN = "gtk.synthcpl.harmo_spin";
         public const string UI_URI_AUTO_VOICE_BTN_A = "gtk.synthcpl.autovoice_a";
         public const string UI_URI_AUTO_VOICE_BTN_B = "gtk.synthcpl.autovoice_b";
         public const string UI_URI_AUTO_VOICE_BTN_C = "gtk.synthcpl.autovoice_c";
@@ -111,37 +117,37 @@ namespace Ensembles.GtkShell.Layouts {
             reverb_button = new Widgets.ToggleButton (UI_URI_REVERB_BTN, _("Reverb"));
             attach (reverb_button, 1, 0);
 
-            reverb_spin_button = new Gtk.SpinButton.with_range (1, 10, 1);
+            reverb_spin_button = new Widgets.MIDIControllableSpinButton.with_range (UI_URI_REVERB_SPIN, 1, 10, 1, 1);
             attach (reverb_spin_button, 1, 1);
 
             chorus_button = new Widgets.ToggleButton (UI_URI_CHORUS_BTN, _("Chorus"));
             attach (chorus_button, 1, 2);
 
-            chorus_spin_button = new Gtk.SpinButton.with_range (1, 10, 1);
+            chorus_spin_button = new Widgets.MIDIControllableSpinButton.with_range (UI_URI_CHORUS_SPIN, 1, 10, 1, 1);
             attach (chorus_spin_button, 1, 3);
 
             transpose_button = new Widgets.ToggleButton (UI_URI_TRANSPOSE_BTN, _("Transpose"));
             attach (transpose_button, 1, 4);
 
-            transpose_spin_button = new Gtk.SpinButton.with_range (-11, 11, 1);
+            transpose_spin_button = new Widgets.MIDIControllableSpinButton.with_range (UI_URI_TRANSPOSE_SPIN, -11, 11, 1, 0);
             attach (transpose_spin_button, 1, 5);
 
             octave_button = new Widgets.ToggleButton (UI_URI_OCTAVE_BTN, _("Octave"));
             attach (octave_button, 1, 6);
 
-            octave_spin_button = new Gtk.SpinButton.with_range (-2, 2, 1);
+            octave_spin_button = new Widgets.MIDIControllableSpinButton.with_range (UI_URI_OCTAVE_SPIN, -2, 2, 1, 0);
             attach (octave_spin_button, 1, 7);
 
             arpeggiator_button = new Widgets.ToggleButton (UI_URI_ARPEGGIATOR_BTN, _("Arpeggiator"));
             attach (arpeggiator_button, 2, 4);
 
-            arpeggiator_spin_button = new Gtk.SpinButton.with_range (1, 10, 1);
+            arpeggiator_spin_button = new Widgets.MIDIControllableSpinButton.with_range (UI_URI_ARPEGGIATOR_SPIN, 1, 10, 1, 1);
             attach (arpeggiator_spin_button, 2, 5);
 
             harmonizer_button = new Widgets.ToggleButton (UI_URI_HARMONIZER_BTN, _("Haromonizer"));
             attach (harmonizer_button, 2, 6);
 
-            harmonizer_spin_button = new Gtk.SpinButton.with_range (1, 9, 1);
+            harmonizer_spin_button = new Widgets.MIDIControllableSpinButton.with_range (UI_URI_HARMONIZER_SPIN, 1, 9, 1, 1);
             attach (harmonizer_spin_button, 2, 7);
         }
 

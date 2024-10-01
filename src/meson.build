@@ -56,6 +56,7 @@ classes = files (
     'Classes/Widgets/Drumkit.vala',
     'Classes/Widgets/ContextMenu.vala',
     'Classes/Widgets/MIDIControllableButton.vala',
+    'Classes/Widgets/MIDIControllableSpinButton.vala',
     'Classes/Widgets/ToggleButton.vala',
     'Classes/Widgets/ScrollDial.vala',
 
