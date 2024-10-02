@@ -129,12 +129,15 @@ namespace Ensembles.GtkShell.Layouts {
                 registry_panel.unparent ();
                 keyboard.unparent ();
 
-                infoview.attach (info_display, 0, 0);
-                info_display.fill_screen = true;
+                Idle.add (() => {
+                    infoview.attach (info_display, 0, 0);
+                    info_display.fill_screen = true;
 
-                style_controller_socket.append (style_control_panel);
-                registry_socket.append (registry_panel);
-                keyboardview.attach (keyboard, 0, 1);
+                    style_controller_socket.append (style_control_panel);
+                    registry_socket.append (registry_panel);
+                    keyboardview.attach (keyboard, 0, 1);
+                    return false;
+                });
             }
         }
 

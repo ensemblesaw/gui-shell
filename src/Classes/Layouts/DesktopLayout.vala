@@ -155,21 +155,23 @@ namespace Ensembles.GtkShell.Layouts {
                 keyboard.unparent ();
                 joystick.unparent ();
 
-                left_column.append (assignables_board);
-                left_column.append (voice_nav_panel);
+                Idle.add (() => {
+                    left_column.append (assignables_board);
+                    left_column.append (voice_nav_panel);
 
-                center_column.append (info_display);
-                info_display.fill_screen = false;
-                center_column.append (mixer_board);
+                    center_column.append (info_display);
+                    info_display.fill_screen = false;
+                    center_column.append (mixer_board);
 
-                right_column.append (synth_control_panel);
-                right_column.append (sampler_pads_panel);
+                    right_column.append (synth_control_panel);
+                    right_column.append (sampler_pads_panel);
 
-                bottom_row_box.set_start_widget (style_control_panel);
-                bottom_row_box.set_end_widget (registry_panel);
-                bottom_row.attach (joystick, 0, 1);
-                bottom_row.attach (keyboard, 1, 1);
-
+                    bottom_row_box.set_start_widget (style_control_panel);
+                    bottom_row_box.set_end_widget (registry_panel);
+                    bottom_row.attach (joystick, 0, 1);
+                    bottom_row.attach (keyboard, 1, 1);
+                    return false;
+                });
             }
         }
 
