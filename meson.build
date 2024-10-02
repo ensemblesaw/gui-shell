@@ -47,7 +47,7 @@ dependencies = [
     dependency ('glib-2.0'),
     dependency ('gee-0.8'),
     dependency ('gobject-2.0'),
-    dependency ('Vinject-0.0.1', fallback: ['libvinject', 'vinject_dep']),
+    dependency ('vinject', fallback: ['libvinject', 'vinject_dep']),
     dependency ('libsoup-3.0'),
     dependency ('json-glib-1.0'),
     dependency ('fluidsynth', required: false),
