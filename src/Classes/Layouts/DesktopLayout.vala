@@ -157,6 +157,7 @@ namespace Ensembles.GtkShell.Layouts {
 
                 Idle.add (() => {
                     left_column.append (assignables_board);
+                    assignables_board.realize ();
                     left_column.append (voice_nav_panel);
 
                     center_column.append (info_display);
