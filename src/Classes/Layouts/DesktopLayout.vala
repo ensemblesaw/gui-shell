@@ -156,8 +156,7 @@ namespace Ensembles.GtkShell.Layouts {
                 joystick.unparent ();
 
                 Idle.add (() => {
-                    //  left_column.append (assignables_board);
-                    assignables_board.set_parent (left_column);
+                    left_column.append (assignables_board);
                     left_column.append (voice_nav_panel);
 
                     center_column.append (info_display);
@@ -186,13 +185,16 @@ namespace Ensembles.GtkShell.Layouts {
                         if (collapsed_view) {
                             collapsed_view = false;
                             collapsed_box.visible = false;
-                            left_column.unparent ();
-                            center_column.unparent ();
-                            right_column.unparent ();
-                            center_box.set_start_widget (left_column);
-                            center_box.set_center_widget (center_column);
-                            center_box.set_end_widget (right_column);
-                            center_box.visible = true;
+                            center_box.set_start_widget (null);
+                            center_box.set_center_widget (null);
+                            center_box.set_end_widget (null);
+                            Idle.add (() => {
+                                center_box.set_start_widget (left_column);
+                                center_box.set_center_widget (center_column);
+                                center_box.set_end_widget (right_column);
+                                center_box.visible = true;
+                                return false;
+                            });
                         }
 
                         center_column.width_request = (int) (0.4 * width);
@@ -203,10 +205,13 @@ namespace Ensembles.GtkShell.Layouts {
                             left_column.unparent ();
                             center_column.unparent ();
                             right_column.unparent ();
-                            left_collapser.set_child (left_column);
-                            center_col_container.append (center_column);
-                            right_collapser.set_child  (right_column);
-                            collapsed_box.visible = true;
+                            Idle.add (() => {
+                                left_collapser.set_child (left_column);
+                                center_col_container.append (center_column);
+                                right_collapser.set_child  (right_column);
+                                collapsed_box.visible = true;
+                                return false;
+                            });
                         }
                     }
                 }
