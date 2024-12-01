@@ -144,7 +144,7 @@ namespace Ensembles.GtkShell.Layouts {
             arpeggiator_spin_button = new Widgets.MIDIControllableSpinButton.with_range (UI_URI_ARPEGGIATOR_SPIN, 1, 10, 1, 1);
             attach (arpeggiator_spin_button, 2, 5);
 
-            harmonizer_button = new Widgets.ToggleButton (UI_URI_HARMONIZER_BTN, _("Haromonizer"));
+            harmonizer_button = new Widgets.ToggleButton (UI_URI_HARMONIZER_BTN, _("Harmonizer"));
             attach (harmonizer_button, 2, 6);
 
             harmonizer_spin_button = new Widgets.MIDIControllableSpinButton.with_range (UI_URI_HARMONIZER_SPIN, 1, 9, 1, 1);

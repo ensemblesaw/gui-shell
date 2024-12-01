@@ -57,7 +57,7 @@ namespace Ensembles.GtkShell.Layouts {
 
             var info_entry = new Adw.ActionRow () {
                 title = _("Info Display"),
-                subtitle = _("View interactive infomation display"),
+                subtitle = _("View interactive information display"),
                 name = "info"
             };
             menu_box.append (info_entry);

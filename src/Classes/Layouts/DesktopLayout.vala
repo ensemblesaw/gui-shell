@@ -150,8 +150,8 @@ namespace Ensembles.GtkShell.Layouts {
                 voice_nav_panel.unparent ();
                 mixer_board.unparent ();
                 sampler_pads_panel.unparent ();
-                style_control_panel.unparent ();
-                registry_panel.unparent ();
+                bottom_row_box.set_start_widget (null);
+                bottom_row_box.set_end_widget (null);
                 keyboard.unparent ();
                 joystick.unparent ();
 
